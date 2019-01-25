@@ -1,4 +1,4 @@
-baseURL = "http://wrdeman.github.io"
+baseURL = "http://wrdeman.github.io/wrdeoftheday"
 languageCode = "en-us"
 title = "Wrde Of The Day"
 theme = "osprey"
