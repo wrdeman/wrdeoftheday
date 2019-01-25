@@ -26,5 +26,6 @@ echo "Updating gh-pages branch"
 cd public && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"  
 
 cd ..
+git pull upstream gh-pages
 git push upstream gh-pages
 echo "Updated gh-pages branch"
