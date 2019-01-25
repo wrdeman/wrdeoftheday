@@ -1,0 +1,32 @@
+baseURL = "http://wrdeoftheday.co.uk"
+languageCode = "en-us"
+title = "Wrde Of The Day"
+theme = "osprey"
+tags = ["blog", "cv"]
+googleAnalytics = ""
+
+[Params]
+    tagline = "Wrde of the Day"
+    author = "wrdeman"
+    description = "Full-stack developer and relapsed physicist"
+    logoBig = "images/background.jpg"
+    logoSmall = "images/background.jpg"
+    customCSS = ""
+
+    github = "wrdeman"
+    linkedin = "simon-osborne-b016513"
+    facebook = ""
+
+    copyright = false
+    credit = false
+
+[[menu.main]]
+  name = "Blog"
+  url = "/#blog"
+  weight = 1
+
+[[menu.main]]
+  name = "About"
+  url = "/#about"
+  weight = 2
+
