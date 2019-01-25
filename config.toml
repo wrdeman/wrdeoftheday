@@ -2,6 +2,7 @@ baseURL = "http://wrdeman.github.io"
 languageCode = "en-us"
 title = "Wrde Of The Day"
 theme = "osprey"
+config = "config.toml"
 tags = ["blog", "cv"]
 googleAnalytics = ""
 
