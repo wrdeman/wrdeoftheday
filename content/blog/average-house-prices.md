@@ -121,4 +121,18 @@ WHERE ST_DWITHIN(
     800
 );
 ```
+gis=# select  min(h.amount), avg(h.amount), max(h.amount) from house h left join planet_osm_polygon pa ON st_dwithin(st_centroid(pa.way), h.geometry, 800) where pa.name ilike '%henleaze infant%';
+  min   |         avg         |  max   
+--------+---------------------+--------
+ 220000 | 581765.051724137931 | 988200
+(1 row)
+
+Time: 641.007 ms
+gis=# select min(h.amount), avg(h.amount), max(h.amount) from house as h where ST_Dwithin((select way from planet_osm_polygon where name ilike '%henleaze infant%'), h.geometry, 800);
+  min   |         avg         |  max   
+--------+---------------------+--------
+ 195000 | 563852.402777777778 | 988200
+(1 row)
+
+Time: 644.310 ms
 
