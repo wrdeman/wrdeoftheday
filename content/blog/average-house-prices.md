@@ -106,6 +106,24 @@ ALTER COLUMN geometry TYPE geometry(point, 3857)
 USING ST_Transform(ST_SETSRID(geometry,4326),3857);
 ```
 
+In [QGIS](https://qgis.org/en/site/) we can plot the houses sold in Bristol.
+![All houses 2018](/images/all_points.png)
+
+
+Applying following filter to the house table we find the houses sold within a 800m radius of the school.
+
+```sql
+WHERE ST_DWITHIN(
+    (
+        SELECT way 
+        FROM planet_osm_polygon 
+        WHERE name ILIKE '%henleaze infant%'
+    ), 
+    h.geometry, 
+    800
+);
+```
+![Houses with 800m of location 2018](/images/select_points.png)
  
 
 ```sql
