@@ -19,7 +19,7 @@ googleAnalytics = ""
     facebook = ""
 
     copyright = false
-    credit = false
+    credit = true
 
 [[menu.main]]
   name = "Blog"
