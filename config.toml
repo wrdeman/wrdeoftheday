@@ -1,4 +1,4 @@
-baseURL = "http://www.wrdeoftheday.co.uk"
+baseURL = "https://www.wrdeoftheday.co.uk"
 languageCode = "en-us"
 title = "Wrde Of The Day"
 theme = "osprey"
