@@ -8,7 +8,7 @@ jobs:
       HUGO_BUILD_DIR: ~/hugo/public
     steps:
       # checkout the repository
-      - checkout
+      - run: git checkout
       # install git submodules for managing third-party dependencies
       - run: git submodule sync && git submodule update --init
       - run: rm -rf public/
