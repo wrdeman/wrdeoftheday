@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: wrdeman/docker-min-hugo:latest
+    working_directory: ~/hugo
+    environment:
+      HUGO_BUILD_DIR: ~/hugo/public
+    steps:
+      # checkout the repository
+      - checkout
+      # install git submodules for managing third-party dependencies
+      - run: git submodule sync && git submodule update --init
+      - run: rm -rf public/
+      - run: mkdir public
+      - run: git worktree prune
+      - run: rm -rf .git/worktrees/public/
+      - run: git config user.email ""
+      - run: git config user.name "ci-build"
+      - run: git worktree add -B gh-pages public upstream/gh-pages
+      - run: hugo -v -d $HUGO_BUILD_DIR
+      - run: cd public && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
+      - run: git push upstream gh-pages
