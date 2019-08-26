@@ -1,0 +1,25 @@
+---
+title: "Postgis ES"
+date: 2019-02-20T21:49:07Z
+draft: true
+---
+
+select name, count(*) as c from street group by name order by c desc limit 10;
+
+     name      | cnt
+---------------+------
+ Church Lane   | 1338
+ Church Street | 1014
+ Station Road  |  995
+ The Green     |  835
+ Mill Lane     |  804
+ Park Road     |  789
+ Church Road   |  789
+ Orchard Close |  768
+ High Street   |  756
+ The Crescent  |  735
+(10 rows)
+
+Time: 1091.203 ms (00:01.091)
+
+

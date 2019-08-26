@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/post/django-benchmark/</loc>
+    <lastmod>2019-02-02T21:18:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/post/</loc>
+    <lastmod>2019-02-02T21:18:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/</loc>
+    <lastmod>2019-02-02T21:18:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/post/average-house-prices/</loc>
+    <lastmod>2019-01-28T20:05:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/about/</loc>
+    <lastmod>2019-01-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/post/hello-world/</loc>
+    <lastmod>2019-01-18T10:47:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/tags/</loc>
+  </url>
+  
+</urlset>
