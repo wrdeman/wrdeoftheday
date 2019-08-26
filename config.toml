@@ -1,33 +1,35 @@
 baseURL = "https://www.wrdeoftheday.co.uk"
 languageCode = "en-us"
 title = "Wrde Of The Day"
-theme = "osprey"
+theme = "hugo-theme-nix"
+paginate = 5
 config = "config.toml"
 tags = ["blog", "cv"]
 googleAnalytics = ""
 
 [Params]
     tagline = "Wrde of the Day"
-    author = "wrdeman"
-    description = "Full-stack developer and relapsed physicist"
-    logoBig = "images/background.jpg"
-    logoSmall = "images/background.jpg"
+    Name = "wrde of the day"
+    HeaderUsername = "wrde"
+    HeaderHostname = "man"
+    About = "Full-stack developer and relapsed physicist"
+    ProfilePicture = "images/background.jpg"
     customCSS = ""
 
-    github = "wrdeman"
-    linkedin = "simon-osborne-b016513"
-    facebook = ""
+    GithubID = "wrdeman"
+    LinkedInID = "simon-osborne-b016513"
+    # facebook = ""
 
     copyright = false
     credit = true
 
-[[menu.main]]
-  name = "Blog"
-  url = "/#blog"
+[[menu.header]]
+  name = "post"
+  url = "/post"
   weight = 1
 
-[[menu.main]]
+[[menu.header]]
   name = "About"
-  url = "/#about"
-  weight = 2
+  url = "/about"
+  weight = 1
 

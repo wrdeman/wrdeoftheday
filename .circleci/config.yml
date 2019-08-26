@@ -21,9 +21,8 @@ jobs:
       - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
       - run: 
-          name: "Pull submodules"
+          name: "Pull themes"
           command: |
-            git submodule sync
-            git submodule update --init --recursive --remote
+            git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: sh publish.sh
 

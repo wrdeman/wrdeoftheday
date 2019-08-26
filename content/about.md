@@ -1,8 +1,8 @@
----
-title: "About"
-date: 2019-01-20T15:06:49Z
-draft: false
----
++++
+title = "About"
+date = "2019-01-20"
+draft = false
++++
 # Me
 
 ## Physicist
