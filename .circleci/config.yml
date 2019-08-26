@@ -24,9 +24,7 @@ jobs:
           name: "Pull themes"
           command: |
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
-      - run: git worktree add -B gh-pages public upstream/gh-pages
-      - run: hugo
-      - run: cd public && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
-      - run: git pull
+      - run: hugo -d docs
+      - run: git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
       - run: git push
 
