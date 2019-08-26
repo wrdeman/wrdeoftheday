@@ -23,6 +23,6 @@ jobs:
       - run: 
           name: "Pull themes"
           command: |
-            git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
+            git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix themes/hugo-theme-nix
       - run: sh publish.sh
 
