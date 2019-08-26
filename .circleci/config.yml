@@ -6,6 +6,9 @@ jobs:
     working_directory: ~/hugo
     environment:
       HUGO_BUILD_DIR: ~/hugo/public
+    branches:
+      only:
+        - master
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -21,6 +24,6 @@ jobs:
           name: "Pull submodules"
           command: |
             git submodule sync
-            git submodule update --init
+            git submodule update --init --recursive
       - run: sh publish.sh
 

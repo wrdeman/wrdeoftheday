@@ -1,6 +1,3 @@
-[submodule "themes/atom"]
-	path = themes/atom
-	url = https://github.com/aubm/hugo-code-editor-theme.git
 [submodule "themes/osprey"]
 	path = themes/osprey
 	url = https://github.com/tomanistor/osprey.git
