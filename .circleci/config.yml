@@ -20,7 +20,7 @@ jobs:
       - run: mkdir public
       - run: git worktree prune
       - run: rm -rf .git/worktrees/public/
-      - run: git config user.email ""
+      - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
       - run: git worktree add -B gh-pages public upstream/gh-pages
       - run: hugo -v -d $HUGO_BUILD_DIR
