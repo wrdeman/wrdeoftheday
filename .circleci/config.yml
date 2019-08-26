@@ -12,7 +12,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "55:de:8d:86:89:ba:6a:58:a5:0f:44:f1:1f:c7:a5:9c"
+            - "5f:8c:e1:f5:47:cf:54:64:c1:64:7f:45:bc:14:fc:90" 
       # checkout the repository
       - run: apt-get -qq update; apt-get -y install git ca-certificates
       - run: git clone git@github.com:wrdeman/wrdeoftheday.git
