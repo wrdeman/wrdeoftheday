@@ -17,6 +17,10 @@ jobs:
       # install git submodules for managing third-party dependencies
       - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
-      - run: git submodule sync && git submodule update --init
+      - run: 
+          name: "Pull submodules"
+          command: |
+            git submodule sync
+            git submodule update --init
       - run: sh publish.sh
 
