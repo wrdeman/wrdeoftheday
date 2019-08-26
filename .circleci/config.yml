@@ -27,5 +27,5 @@ jobs:
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: hugo -d docs
       - run: git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
-      - run: git push
+      - run: git push --set-upstream origin master
 
