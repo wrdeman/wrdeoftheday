@@ -22,7 +22,7 @@ jobs:
       - run: rm -rf .git/worktrees/public/
       - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
-      - run: git worktree add -B gh-pages public upstream/gh-pages
+        # - run: git worktree add -B gh-pages public upstream/gh-pages
       - run: hugo -v -d $HUGO_BUILD_DIR
       - run: cd public && git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
       - run: git push upstream gh-pages
