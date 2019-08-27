@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: wrdeman/docker-min-hugo:latest
+      - image: cibuilds/hugo:latest
     working_directory: ~/hugo
     environment:
       HUGO_BUILD_DIR: ~/hugo/public

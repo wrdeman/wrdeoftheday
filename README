@@ -2,9 +2,7 @@
 
 My personal blog.
 
-git clone https://github.com/tomanistor/osprey.git
-
-./publish.sh then cd publish and ggpush
+./publish.sh 
 
 # docker
 
