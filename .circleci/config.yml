@@ -14,7 +14,7 @@ jobs:
           fingerprints:
             - "a4:39:19:99:e2:40:e3:0c:fd:d3:87:59:a8:a7:05:d3"
       # checkout the repository
-      - run: apt-get -qq update; apt-get -y install git ca-certificates
+      - run: apk update; apk add git 
       - checkout
       - run: git checkout master
       # - run: git clone git@github.com:wrdeman/wrdeoftheday.git
