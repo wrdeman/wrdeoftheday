@@ -18,13 +18,13 @@ There are good instructions on how to setup OpenStreetMap [here](https://switch2
 
 For the postcode data, first get the data:
 
-```bash
+{{< highlight bash >}}
 wget https://www.nominatim.org/data/gb_postcode_data.sql.gz
 gunzip gb_postcode_data.sql.gz
-```
+{{< /highlight >}}
 
 Create a PostGIS table for the postcode data noting that it uses the EPSG:4326 projection.
-```sql
+{{< highlight sql >}}
 CREATE TABLE gb_postcode (
     id integer,
     postcode character varying(9),
@@ -32,18 +32,18 @@ CREATE TABLE gb_postcode (
     CONSTRAINT enforce_dims_geometry CHECK ((st_ndims(geometry) = 2)),
     CONSTRAINT enforce_srid_geometry CHECK ((st_srid(geometry) = 4326))
 );
-```
+{{< /highlight >}}
 
 Then ingest the data as follows:
-```bash
+{{< highlight bash >}}
 psql -dgis -f data/gb_postcode_data.sql
-```
+{{< /highlight >}}
 
 #### House prices.
 
 UK house prices are recorded by the Land Registry and they have a nice SPARQL console interface [http://landregistry.data.gov.uk/app/qonsole](http://landregistry.data.gov.uk/app/qonsole). Here we get the house prices for properties in MYTOWN in 2018 using the following SPARQL query:
 
-```
+{{< highlight sparql >}}
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -77,10 +77,10 @@ FILTER (
 
 }
 ORDER BY ?amount
-```
+{{< /highlight >}}
 
 To get the housing data into PostGIS we first create a table for the house prices, the copy the data from a csv, and finally copy the appropriate postcode geometry onto the house table. This is a bit of a shortcut cut to make subsequent lookups easier as we could have made a foreign key relation between the house and postcode tables.
-```sql
+{{< highlight sql >}}
 CREATE TABLE house (
     postcode character varying(9),
     geometry geometry,
@@ -94,21 +94,21 @@ CREATE TABLE house (
     date date,
     category varchar(40)
 );
-```
+{{< /highlight >}}
 
 Copy the postcode geometry onto the house table
-```sql
+{{< highlight sql >}}
 UPDATE house 
 SET geometry=gb_postcode.geometry 
 FROM gb_postcode WHERE gb_postcode.postcode LIKE house.postcode;
-```
+{{< /highlight >}}
 
 The final thing to do is to transform the data to transform the postcode table to have the same projection as the OpenStreetMap tables.  
-```sql
+{{< highlight sql >}}
 ALTER TABLE house 
 ALTER COLUMN geometry TYPE geometry(point, 3857) 
 USING ST_Transform(ST_SETSRID(geometry,4326),3857);
-```
+{{< /highlight >}}
 
 In [QGIS](https://qgis.org/en/site/) we can plot the houses sold in MYTOWN in the 2018:
 ![All houses 2018](/images/all_points.png)
@@ -119,7 +119,7 @@ Now we have OpenStreetMap and a table of houses we can find the houses within a 
 
 Again using QGIS we can apply then following filter to the house table we find the houses sold within a 800m radius of the school.
 
-```sql
+{{< highlight sql >}}
 WHERE ST_DWITHIN(
     (
         SELECT ST_CENTROID(way) 
@@ -129,14 +129,14 @@ WHERE ST_DWITHIN(
     geometry, 
     800
 );
-```
+{{< /highlight >}}
 
 ![Houses within 800m of location 2018](/images/select_points.png)
  
 
 Finally we are in a position to calculate the average house price.
 
-```sql
+{{< highlight sql >}}
 SELECT min(h.amount), avg(h.amount), max(h.amount) 
 FROM house as h 
 WHERE ST_DWITHIN(
@@ -148,9 +148,9 @@ WHERE ST_DWITHIN(
     h.geometry, 
     800
 );
-```
+{{< /highlight >}}
 
-```sql
+{{< highlight sql >}}
 gis=# SELECT MIN(h.amount), AVG(h.amount), MAX(h.amount) 
     FROM house h 
     LEFT JOIN planet_osm_polygon pa ON ST_DWITHIN(ST_CENTROID(pa.way), h.geometry, 800) 
@@ -178,4 +178,4 @@ gis=# SELECT MIN(h.amount), AVG(h.amount), MAX(h.amount)
 (1 row)
 
 Time: 644.310 ms
-```
+{{< /highlight >}}

@@ -18,7 +18,7 @@ For this task I will use a simple Django App with Session Authentication, a GET 
 The simple account model is associated to a user, has a minimum and the current balance. The transaction model is used as a record the balance at each transaction from the account.
 
 
-```Python
+{{< highlight python >}}
 from django.contrib.auth.models import User                                    
 from django.db import models                                                   
                                                                                
@@ -39,12 +39,11 @@ class Transaction(models.Model):
     holder = models.ForeignKey(Account, models.SET_NULL, null=True, blank=True)
     transaction = models.IntegerField()                                        
     balance = models.IntegerField()                                        
-```
+{{< /highlight >}}
 
 #### Views 
 The views are really basic. The GET simply returns the current balance. The POST makes a withdrawl (default 1) and then creates the transaction.
-```
-
+{{< highlight python >}}
 from django.http import HttpResponse                                           
 from django.views import View                                                  
 from .models import Account, Transaction                                       
@@ -66,7 +65,7 @@ class WithdrawView(View):
             transaction=current                                                
         )                                                                      
         return HttpResponse(current)
-```
+{{< /highlight >}}
 
 #### Django and Gunicorn
 For this type of experiment, it is probably best to run Django as you would in production, using a WSGI HTTP server such as Gunicorn. Whilst Django's built in runserver is by default multithreaded, it seems prudent to keep the system close to that of a production system.
@@ -80,35 +79,35 @@ As described above, I have decided to have the withdrawl endpoint as an POST req
 #### Cookies 
 First we GET the login page and save the cookies to a file:
 
-```
+{{< highlight bash >}}
 curl -c cookies.txt -XGET http://localhost:8001/auth/login/ 2>&1               
-```
+{{< /highlight >}}
 
 Then grab the CSRF token from the cookies as so
-```
+{{< highlight bash >}}
 CSRF=$(cat cookies.txt | grep csrftoken | awk -F" " '{print $7}')              
-```
+{{< /highlight >}}
 
 Using the token we can login saving a new cookies file, which now includes the sessionid:
-```                                                
+{{< highlight bash >}}                                                
 curl -i --cookie cookies.txt -H "X-CSRFToken:"$CSRF"" -H"Content-Type: application/x-www-form-urlencoded" -X POST -d "username=$UNAME" -d "password=$PWORD" http://localhost:8001/auth/login/ -c new_cookies.txt
-```                                                                             
+{{< /highlight >}}                                                                             
 As with the CSRF token we can grab the sessionid:
-```
+{{< highlight bash >}}
 SESSION=$(cat new_cookies.txt | grep session | awk -F" " '{print $7}')         
-```
+{{< /highlight >}}
 
 
 #### Benchmark
 Now done to the serious business of using Ab to make a number of concurrent requests. This will make a total of 100 requests (`-n 100`) with 3 concurrent requests (`-c 3`). Note that I had to combine my cookies together separated with a semicolon. 
-```
+{{< highlight bash >}}
 ab -n 100 -c 3 -C "sessionid=$SESSION;csrftoken=$CSRF" -H "X-CSRFToken:$CSRF" -T"Content-Type: application/json" -mPOST http://localhost:8001/accounts/withdraw/
-```
+{{< /highlight >}}
 
 What does this tell us? First, we have created 100 transactions (`Transaction.objects.count()`). Second, the current value on the Account model is only 999953 where as you'd hope after 100 withdrawls of value 1 you'd be at 999900. We can count the number of single transactions by grouping the transactions by balance and aggregating, as follows: 
-```python
+{{< highlight python >}}
 Transaction.objects.values("balance").annotate(count=Count("id")).aggregate(Count("count")) 
-```
+{{< /highlight >}}
 which evaluates, in this case, to 47. No suprises there.
 
 ### Finally ...
