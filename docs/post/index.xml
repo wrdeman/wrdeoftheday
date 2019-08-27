@@ -17,7 +17,8 @@
       <pubDate>Mon, 26 Aug 2019 19:38:50 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/post/ci_for_latex/</guid>
-      <description> How to use bitbucket pipelines to generate LaTex documents </description>
+      <description>How to use bitbucket pipelines to generate LaTex documents Why do this? It’s a handy way to have LaTex documents on the go and collaboration.
+Docker container The typical way of installing LaTex is texlive and one would normally install the full version. Whilst, this is great it is pretty big. So I have created a container with a basic LaTex installation. This may or may not meet your requirements.</description>
     </item>
     
     <item>

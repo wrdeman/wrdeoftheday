@@ -85,6 +85,38 @@
 
 <h2 id="how-to-use-bitbucket-pipelines-to-generate-latex-documents">How to use bitbucket pipelines to generate LaTex documents</h2>
 
+<p>Why do this? It’s a handy way to have LaTex documents on the go and
+collaboration.</p>
+
+<h2 id="docker-container">Docker container</h2>
+
+<p>The typical way of installing LaTex is texlive and one would normally install the full version.
+Whilst, this is great it is pretty big.
+So I have created a container with a basic LaTex installation.
+This may or may not meet your requirements.</p>
+
+<p>‘’’
+FROM ubuntu:bionic
+ENV DEBIAN_FRONTEND noninteractive</p>
+
+<p>RUN apt-get update -q <br />
+    &amp;&amp; apt-get install &ndash;no-install-recommends -qy \
+    libfontconfig1 <br />
+    texlive-base <br />
+    texlive-extra-utils <br />
+    texlive-generic-recommended <br />
+    texlive-fonts-recommended <br />
+    texlive-font-utils <br />
+    texlive-latex-base <br />
+    texlive-latex-recommended <br />
+    texlive-latex-extra <br />
+    &amp;&amp; rm -rf /var/lib/apt/lists/*</p>
+
+<p>ENV HOME /data
+WORKDIR /data
+VOLUME [&ldquo;/data&rdquo;]
+‘’’</p>
+
             </div>
             
             <div class="post-comments">
