@@ -12,4 +12,6 @@ As time passed I became more interested in making lasers do wierd and wonderful 
 ## Developer
 Moving on... After cutting it as a physicist, I decided to follow my dream of becoming a professional coder. In short physics was becoming a blocker to programming. 
 
+## Wanna be musician
+Trumpeter masquerading as a cornet player.
 
