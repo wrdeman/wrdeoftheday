@@ -39,14 +39,5 @@ Docker container The typical way of installing LaTex is texlive and one would no
       <description>What&amp;rsquo;s the average house price in a school&amp;rsquo;s catchment area? In order to calculate the average house price in a school&amp;rsquo;s catchment area, we are going to use PostGIS and OpenStreetMap. We&amp;rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&amp;rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&amp;rsquo;s Nominatim.</description>
     </item>
     
-    <item>
-      <title>Hello World</title>
-      <link>https://www.wrdeoftheday.co.uk/posts/hello-world/</link>
-      <pubDate>Fri, 18 Jan 2019 10:47:01 +0000</pubDate>
-      
-      <guid>https://www.wrdeoftheday.co.uk/posts/hello-world/</guid>
-      <description> Hello World I can type things using markdown. </description>
-    </item>
-    
   </channel>
 </rss>

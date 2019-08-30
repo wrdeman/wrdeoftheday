@@ -59,14 +59,5 @@ Docker container The typical way of installing LaTex is texlive and one would no
 Developer Moving on&amp;hellip; After cutting it as a physicist, I decided to follow my dream of becoming a professional coder.</description>
     </item>
     
-    <item>
-      <title>Hello World</title>
-      <link>https://www.wrdeoftheday.co.uk/posts/hello-world/</link>
-      <pubDate>Fri, 18 Jan 2019 10:47:01 +0000</pubDate>
-      
-      <guid>https://www.wrdeoftheday.co.uk/posts/hello-world/</guid>
-      <description> Hello World I can type things using markdown. </description>
-    </item>
-    
   </channel>
 </rss>
