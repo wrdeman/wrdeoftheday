@@ -26,7 +26,7 @@ jobs:
           command: |
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: hugo -d docs
-      - run: git checkout master && git pull
+      - run: git checkout master && git merge dev
       - run: git add --all && git commit -m "Publishing to master"
       - run: git push --set-upstream origin master
 
