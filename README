@@ -2,8 +2,8 @@
 
 My personal blog.
 
-./publish.sh 
-
 # docker
 
-docker run --rm -i -u="$(id -u):$(id -g)" -p 1313:1313 -v "$PWD":/data wrdeman/docker-min-hugo hugo server -D --bind=0.0.0.0
+`docker run --rm -i -u="$(id -u):$(id -g)" -p 1313:1313 -v "$PWD":/data wrdeman/docker-min-hugo hugo server -D --bind=0.0.0.0`
+
+commit on dev/push and wait
