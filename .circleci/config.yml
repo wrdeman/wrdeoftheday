@@ -16,7 +16,7 @@ jobs:
       # checkout the repository
       - run: apk update; apk add git 
       - checkout
-      - run: git checkout master
+      - run: git checkout dev
       # - run: git clone git@github.com:wrdeman/wrdeoftheday.git
       # install git submodules for managing third-party dependencies
       - run: git config user.email "wrdeplay@gmail.com"
