@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> Ci for latex documents &middot; Wrde Of The Day </title>
+        <title> CI for LaTex &middot; Wrde Of The Day </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -78,7 +78,7 @@
 </header>
 
         <div class="container wrapper">
-            <h1><a href="https://www.wrdeoftheday.co.uk/post/ci_for_latex/">Ci for latex documents</a></h1>
+            <h1><a href="https://www.wrdeoftheday.co.uk/post/ci_for_latex/">CI for LaTex</a></h1>
             <span class="post-date">Aug 26, 2019 </span>
             <div class="post-content">
                 
@@ -92,30 +92,75 @@ collaboration.</p>
 
 <p>The typical way of installing LaTex is texlive and one would normally install the full version.
 Whilst, this is great it is pretty big.
-So I have created a container with a basic LaTex installation.
+So I have created a container with a basic LaTex installation: <a href="https://hub.docker.com/r/wrdeman/docker-min-tex">https://hub.docker.com/r/wrdeman/docker-min-tex</a>
 This may or may not meet your requirements.</p>
 
-<p>‘’’
-FROM ubuntu:bionic
-ENV DEBIAN_FRONTEND noninteractive</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu:bionic</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> DEBIAN_FRONTEND noninteractive</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update -q <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> apt-get install --no-install-recommends -qy <span style="color:#ae81ff">\ </span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    libfontconfig1 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-base <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-extra-utils <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-generic-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-fonts-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-font-utils <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-base <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-extra <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> HOME /data</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /data</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> [&#34;/data&#34;]</span></code></pre></div>
 
-<p>RUN apt-get update -q <br />
-    &amp;&amp; apt-get install &ndash;no-install-recommends -qy \
-    libfontconfig1 <br />
-    texlive-base <br />
-    texlive-extra-utils <br />
-    texlive-generic-recommended <br />
-    texlive-fonts-recommended <br />
-    texlive-font-utils <br />
-    texlive-latex-base <br />
-    texlive-latex-recommended <br />
-    texlive-latex-extra <br />
-    &amp;&amp; rm -rf /var/lib/apt/lists/*</p>
+<p>Using the image on docker hub, we create a pdf document as:</p>
 
-<p>ENV HOME /data
-WORKDIR /data
-VOLUME [&ldquo;/data&rdquo;]
-‘’’</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm -i --net<span style="color:#f92672">=</span>none -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex</code></pre></div>
+
+<p>So far so good &hellip;</p>
+
+<h2 id="bitbucket-pipeline">Bitbucket pipeline</h2>
+
+<p>We can use bitbucket&rsquo;s pipeline to build our document and save the output as an downloadable file.
+First we need to create git repo with a latex file and bitbucket-pipelines.yml.</p>
+
+<p>The pipeline needs to</p>
+
+<ul>
+<li>run our previous docker command</li>
+<li>mark the output file as an artifact in the step</li>
+<li>send the output file to the download API endpoint</li>
+</ul>
+
+<p>as the following yml</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">pipelines:
+  default:
+    - step:
+        services:
+          - docker
+        script: 
+          - docker run --rm -i --net=none -v <span style="color:#e6db74">&#34;$PWD&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex
+        artifacts:
+          - a-document.pdf
+    - step:
+        script:   
+          - curl -X POST --user <span style="color:#e6db74">&#34;${BB_STRING}&#34;</span> <span style="color:#e6db74">&#34;https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${BITBUCKET_REPO_SLUG}/downloads&#34;</span> --form files=@<span style="color:#e6db74">&#34;a-document.pdf&#34;</span> </code></pre></div>
+
+<p>We need to set some variables, in the repo&rsquo;s settings-&gt;reposity variables.
+These are:</p>
+
+<ul>
+<li>BB_STRING is the &ldquo;USERNAME:APP_PASSWORD&rdquo;</li>
+<li>BITBUCKET_USERNAME</li>
+<li>BITBUCKET_REPO_SLUG</li>
+</ul>
+
+<p>The APP_PASSWORD can be create in you bitbucket account settings-&gt;App passwords.</p>
+
+<p>Now when you commit the repo the pipeline will run and a document will appear in the repo&rsquo;s download directory.</p>
 
             </div>
             
