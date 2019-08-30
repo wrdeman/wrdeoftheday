@@ -8,7 +8,7 @@ jobs:
       HUGO_BUILD_DIR: ~/hugo/public
     branches:
       only:
-        - master
+        - dev
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -26,6 +26,7 @@ jobs:
           command: |
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: hugo -d docs
-      - run: git add --all && git commit -m "Publishing to gh-pages (publish.sh)"
+      - run: git checkout master
+      - run: git add --all && git commit -m "Publishing to master"
       - run: git push --set-upstream origin master
 
