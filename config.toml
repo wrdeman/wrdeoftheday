@@ -24,8 +24,8 @@ googleAnalytics = ""
     credit = true
 
 [[menu.header]]
-  name = "post"
-  url = "/post"
+  name = "posts"
+  url = "/posts"
   weight = 1
 
 [[menu.header]]
@@ -33,3 +33,7 @@ googleAnalytics = ""
   url = "/about"
   weight = 1
 
+[[menu.header]]
+  name = "music"
+  url = "/music"
+  weight = 1
