@@ -16,12 +16,12 @@ jobs:
       # checkout the repository
       - run: apk update; apk add git 
       - checkout
+      - run: git fetch --all --prune
       - run: git checkout dev
       # - run: git clone git@github.com:wrdeman/wrdeoftheday.git
       # install git submodules for managing third-party dependencies
       - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
-      - run: git config --global core.editor "vi"
       - run: 
           name: "Pull themes"
           command: |
@@ -29,6 +29,5 @@ jobs:
       - run: hugo -d docs
       - run: git add --all && git commit -m "Publishing to master"
       - run: git checkout master && git merge dev --commit -m"merge"
-      - run: git pull --commit
       - run: git push --set-upstream origin master
 
