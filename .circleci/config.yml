@@ -29,5 +29,5 @@ jobs:
       - run: hugo -d docs
       - run: git add --all && git commit -m "Publishing to master"
       - run: git checkout master && git merge dev --commit -m"merge"
-      - run: git push --set-upstream origin master
+      - run: git push 
 
