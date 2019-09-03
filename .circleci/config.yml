@@ -33,6 +33,5 @@ jobs:
       - run: git commit -m"merged"
       - run: git merge dev --commit -m"merge"
       - run: git add --all
-      - run: git commit -m "Publishing to master"
       - run: git push 
 
