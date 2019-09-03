@@ -7,7 +7,7 @@ draft: False
 
 ## A collection of great brass tunes
 
-This is a curated list of brass band/ensemble music.
+This is a curated list of music that features great brass.
 
 <iframe src="https://open.spotify.com/embed/user/wrdeman/playlist/7mIwwuImFaFBNR3vyjsca8" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
