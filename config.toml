@@ -5,7 +5,6 @@ theme = "hugo-theme-nix"
 paginate = 5
 config = "config.toml"
 tags = ["blog", "cv"]
-googleAnalytics = "UA-146772833-1"
 
 [Params]
     tagline = "Wrde of the Day"
@@ -19,6 +18,7 @@ googleAnalytics = "UA-146772833-1"
     GithubID = "wrdeman"
     LinkedInID = "simon-osborne-b016513"
     # facebook = ""
+    GoogleAnalytics = "UA-146772833-1"
 
     copyright = false
     credit = true
