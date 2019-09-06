@@ -37,3 +37,14 @@ tags = ["blog", "cv"]
   name = "music"
   url = "/music"
   weight = 1
+
+
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    disable = true
+    respectDoNotTrack = true
+    useSessionStorage = true
+  [privacy.youtube]
+    disable = true
+    privacyEnhanced = true
