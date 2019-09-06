@@ -10,3 +10,8 @@ This is a curated list of music that features great brass.
 
 <iframe src="https://open.spotify.com/embed/user/wrdeman/playlist/7mIwwuImFaFBNR3vyjsca8" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
+
+
+I can’t find a recording of Overture Promenade by Frank Bryce but this video is really good:
+
+{{< youtube cmdiAeiNPC0 >}}
