@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> CI for LaTex &middot; Wrde Of The Day </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.57.2" />
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://www.wrdeoftheday.co.uk/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-146772833-1', 'auto');
+	  ga('send', 'pageview');
+
+</script>
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://www.wrdeoftheday.co.uk>wrde@man ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://www.wrdeoftheday.co.uk">/home/wrde</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/music">~/music</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/posts">~/posts</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://www.wrdeoftheday.co.uk/posts/ci_for_latex/">CI for LaTex</a></h1>
+            <span class="post-date">Aug 26, 2019 </span>
+            <div class="post-content">
+                
+
+<h2 id="how-to-use-bitbucket-pipelines-to-generate-latex-documents">How to use bitbucket pipelines to generate LaTex documents</h2>
+
+<p>Why do this? It’s a handy way to have LaTex documents on the go and
+collaboration.</p>
+
+<h2 id="docker-container">Docker container</h2>
+
+<p>The typical way of installing LaTex is texlive and one would normally install the full version.
+Whilst, this is great it is pretty big.
+So I have created a container with a basic LaTex installation: <a href="https://hub.docker.com/r/wrdeman/docker-min-tex">https://hub.docker.com/r/wrdeman/docker-min-tex</a>
+This may or may not meet your requirements.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu:bionic</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> DEBIAN_FRONTEND noninteractive</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update -q <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> apt-get install --no-install-recommends -qy <span style="color:#ae81ff">\ </span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>    libfontconfig1 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-base <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-extra-utils <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-generic-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-fonts-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-font-utils <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-base <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-recommended <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    texlive-latex-extra <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> HOME /data</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /data</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> [&#34;/data&#34;]</span></code></pre></div>
+
+<p>Using the image on docker hub, we create a pdf document as:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm -i --net<span style="color:#f92672">=</span>none -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex</code></pre></div>
+
+<p>So far so good &hellip;</p>
+
+<h2 id="bitbucket-pipeline">Bitbucket pipeline</h2>
+
+<p>We can use bitbucket&rsquo;s pipeline to build our document and save the output as an downloadable file.
+First we need to create git repo with a latex file and bitbucket-pipelines.yml.</p>
+
+<p>The pipeline needs to</p>
+
+<ul>
+<li>run our previous docker command</li>
+<li>mark the output file as an artifact in the step</li>
+<li>send the output file to the download API endpoint</li>
+</ul>
+
+<p>as the following yml</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">pipelines:
+  default:
+    - step:
+        services:
+          - docker
+        script: 
+          - docker run --rm -i --net=none -v <span style="color:#e6db74">&#34;$PWD&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex
+        artifacts:
+          - a-document.pdf
+    - step:
+        script:   
+          - curl -X POST --user <span style="color:#e6db74">&#34;${BB_STRING}&#34;</span> <span style="color:#e6db74">&#34;https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${BITBUCKET_REPO_SLUG}/downloads&#34;</span> --form files=@<span style="color:#e6db74">&#34;a-document.pdf&#34;</span> </code></pre></div>
+
+<p>We need to set some variables, in the repo&rsquo;s settings-&gt;reposity variables.
+These are:</p>
+
+<ul>
+<li>BB_STRING is the &ldquo;USERNAME:APP_PASSWORD&rdquo;</li>
+<li>BITBUCKET_USERNAME</li>
+<li>BITBUCKET_REPO_SLUG</li>
+</ul>
+
+<p>The APP_PASSWORD can be create in you bitbucket account settings-&gt;App passwords.</p>
+
+<p>Now when you commit the repo the pipeline will run and a document will appear in the repo&rsquo;s download directory.</p>
+
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2019 wrde of the day -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+    </body>
