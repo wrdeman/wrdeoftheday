@@ -30,8 +30,8 @@ jobs:
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: git checkout master
       - run: rm -rf docs/*
-      - run: git pull -Xours origin master --no-commit
-      - run: git commit -m"merged"
+        # - run: git pull -Xours origin master --no-commit
+        # - run: git commit -m"merged"
       - run: git merge dev --commit -m"merge"
       - run: hugo -d docs
       - run: git add --all
