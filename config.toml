@@ -11,7 +11,7 @@ tags = ["blog", "cv"]
     Name = "wrde of the day"
     HeaderUsername = "wrde"
     HeaderHostname = "man"
-    About = "Full-stack developer, relapsed physicist and sometime trumpter:w"
+    About = "Full-stack developer, relapsed physicist and sometime trumpter"
     ProfilePicture = "images/background.jpg"
     customCSS = ""
 
