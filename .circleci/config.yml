@@ -31,7 +31,7 @@ jobs:
       - run: hugo -d docs
       - run: git checkout master
       - run: rm -rf docs/*
-      - run: git pull -Xtheirs origin master --no-commit
+      - run: git pull origin master --no-commit
       - run: git commit -m"merged"
       - run: git merge dev --commit -m"merge"
       - run: git add --all
