@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.58.1" />
+<meta name="generator" content="Hugo 0.64.1" />
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -103,25 +103,15 @@ ga('send', 'pageview');
             <h1><a href="https://www.wrdeoftheday.co.uk/posts/average-house-prices/">Average House Prices</a></h1>
             <span class="post-date">Jan 28, 2019 </span>
             <div class="post-content">
-                
-
-<h3 id="what-s-the-average-house-price-in-a-school-s-catchment-area">What&rsquo;s the average house price in a school&rsquo;s catchment area?</h3>
-
+                <h3 id="whats-the-average-house-price-in-a-schools-catchment-area">What&rsquo;s the average house price in a school&rsquo;s catchment area?</h3>
 <p>In order to calculate the average house price in a school&rsquo;s catchment area, we are going to use PostGIS and OpenStreetMap. We&rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&rsquo;s Nominatim. The location of the schools can be found in OpenStreetMap&rsquo;s polygon table.</p>
-
 <p>In this example we are using <code>MYTOWN</code> and <code>SCHOOL NAME</code> as aliases.</p>
-
 <h4 id="openstreetmap">OpenStreetMap</h4>
-
 <p>There are good instructions on how to setup OpenStreetMap <a href="https://switch2osm.org/manually-building-a-tile-server-18-04-lts/">here</a> and I recommend following these.</p>
-
 <h4 id="postcodes">Postcodes</h4>
-
 <p>For the postcode data, first get the data:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://www.nominatim.org/data/gb_postcode_data.sql.gz
 gunzip gb_postcode_data.sql.gz</code></pre></div>
-
 <p>Create a PostGIS table for the postcode data noting that it uses the EPSG:4326 projection.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> gb_postcode (
     id integer,
@@ -130,31 +120,27 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
     <span style="color:#66d9ef">CONSTRAINT</span> enforce_dims_geometry <span style="color:#66d9ef">CHECK</span> ((st_ndims(geometry) <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)),
     <span style="color:#66d9ef">CONSTRAINT</span> enforce_srid_geometry <span style="color:#66d9ef">CHECK</span> ((st_srid(geometry) <span style="color:#f92672">=</span> <span style="color:#ae81ff">4326</span>))
 );</code></pre></div></p>
-
 <p>Then ingest the data as follows:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">psql -dgis -f data/gb_postcode_data.sql</code></pre></div></p>
-
 <h4 id="house-prices">House prices.</h4>
-
 <p>UK house prices are recorded by the Land Registry and they have a nice SPARQL console interface <a href="http://landregistry.data.gov.uk/app/qonsole">http://landregistry.data.gov.uk/app/qonsole</a>. Here we get the house prices for properties in MYTOWN in 2018 using the following SPARQL query:</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sparql" data-lang="sparql"><span style="color:#66d9ef">prefix</span> rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
-<span style="color:#66d9ef">prefix</span> rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
-<span style="color:#66d9ef">prefix</span> owl: &lt;http://www.w3.org/2002/07/owl#&gt;
-<span style="color:#66d9ef">prefix</span> xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
-<span style="color:#66d9ef">prefix</span> sr: &lt;http://data.ordnancesurvey.co.uk/ontology/spatialrelations/&gt;
-<span style="color:#66d9ef">prefix</span> ukhpi: &lt;http://landregistry.data.gov.uk/def/ukhpi/&gt;
-<span style="color:#66d9ef">prefix</span> lrppi: &lt;http://landregistry.data.gov.uk/def/ppi/&gt;
-<span style="color:#66d9ef">prefix</span> skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
-<span style="color:#66d9ef">prefix</span> lrcommon: &lt;http://landregistry.data.gov.uk/def/common/&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sparql" data-lang="sparql"><span style="color:#66d9ef">prefix</span> rdf:<span style="color:#f92672"></span> &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<span style="color:#66d9ef">prefix</span> rdfs:<span style="color:#f92672"></span> &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+<span style="color:#66d9ef">prefix</span> owl:<span style="color:#f92672"></span> &lt;http://www.w3.org/2002/07/owl#&gt;
+<span style="color:#66d9ef">prefix</span> xsd:<span style="color:#f92672"></span> &lt;http://www.w3.org/2001/XMLSchema#&gt;
+<span style="color:#66d9ef">prefix</span> sr:<span style="color:#f92672"></span> &lt;http://data.ordnancesurvey.co.uk/ontology/spatialrelations/&gt;
+<span style="color:#66d9ef">prefix</span> ukhpi:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/ukhpi/&gt;
+<span style="color:#66d9ef">prefix</span> lrppi:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/ppi/&gt;
+<span style="color:#66d9ef">prefix</span> skos:<span style="color:#f92672"></span> &lt;http://www.w3.org/2004/02/skos/core#&gt;
+<span style="color:#66d9ef">prefix</span> lrcommon:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/common/&gt;
 
 <span style="color:#66d9ef">SELECT</span> ?paon ?saon ?street ?town ?county ?postcode ?amount ?date ?category
 <span style="color:#66d9ef">WHERE</span>
 {
-  <span style="color:#960050;background-color:#1e0010">VALUES</span> ?town {<span style="color:#e6db74">&#34;MYTOWN&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">string</span>}
+  <span style="color:#960050;background-color:#1e0010">V</span><span style="color:#960050;background-color:#1e0010">A</span><span style="color:#960050;background-color:#1e0010">L</span><span style="color:#960050;background-color:#1e0010">U</span><span style="color:#960050;background-color:#1e0010">E</span><span style="color:#960050;background-color:#1e0010">S</span> ?town {<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MYTOWN</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">string</span>}
 <span style="color:#66d9ef">FILTER</span> (
-    ?date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;2018-01-01&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span> <span style="color:#f92672">&amp;&amp;</span>
-    ?date <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2018-12-31&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span>
+    ?date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2018-01-01</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span> <span style="color:#f92672">&amp;&amp;</span>
+    ?date <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2018-12-31</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span>
   )
   ?addr lrcommon:<span style="color:#f92672">town</span> ?town.
 
@@ -171,7 +157,6 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
 
 }
 <span style="color:#66d9ef">ORDER BY</span> ?amount</code></pre></div>
-
 <p>To get the housing data into PostGIS we first create a table for the house prices, the copy the data from a csv, and finally copy the appropriate postcode geometry onto the house table. This is a bit of a shortcut cut to make subsequent lookups easier as we could have made a foreign key relation between the house and postcode tables.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> house (
     postcode character varying(<span style="color:#ae81ff">9</span>),
@@ -186,56 +171,45 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
     date date,
     category varchar(<span style="color:#ae81ff">40</span>)
 );</code></pre></div></p>
-
 <p>Copy the postcode geometry onto the house table
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">UPDATE</span> house 
 <span style="color:#66d9ef">SET</span> geometry<span style="color:#f92672">=</span>gb_postcode.geometry 
 <span style="color:#66d9ef">FROM</span> gb_postcode <span style="color:#66d9ef">WHERE</span> gb_postcode.postcode <span style="color:#66d9ef">LIKE</span> house.postcode;</code></pre></div></p>
-
-<p>The final thing to do is to transform the data to transform the postcode table to have the same projection as the OpenStreetMap tables.<br />
+<p>The final thing to do is to transform the data to transform the postcode table to have the same projection as the OpenStreetMap tables.<br>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> house 
 <span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">COLUMN</span> geometry <span style="color:#66d9ef">TYPE</span> geometry(point, <span style="color:#ae81ff">3857</span>) 
 <span style="color:#66d9ef">USING</span> ST_Transform(ST_SETSRID(geometry,<span style="color:#ae81ff">4326</span>),<span style="color:#ae81ff">3857</span>);</code></pre></div></p>
-
 <p>In <a href="https://qgis.org/en/site/">QGIS</a> we can plot the houses sold in MYTOWN in the 2018:
-<img src="/images/all_points.png" alt="All houses 2018" /></p>
-
+<img src="/images/all_points.png" alt="All houses 2018"></p>
 <h4 id="filtering-sold-houses-around-a-school">Filtering sold houses around a school</h4>
-
 <p>Now we have OpenStreetMap and a table of houses we can find the houses within a distance of a school. The schools location is found from the <code>planet_osm_polygon</code> table and it is easy enough as <code>SELECT ST_CENTROID(way) FROM planet_osm_polygon WHERE name ILIKE '%SCHOOL NAME'</code>. This query finds the polygon representing the school (note you may need to add an extra clause <code>amenity LIKE 'school'</code>) and the PostGIS function ST_CENTROID finds the centre of the polygon. The filter we need to apply to the house table is `WHERE ST_DWITHIN(POINT1, POINT2, DISTANCE) where POINT1 is the centre of the scool, POINT2 is the point of the house (geometry field on the house table) and DISTANCE is the permitted distance in metres. In the following example, I have chose 800m as this was the radius of the catchment area in 2018.</p>
-
 <p>Again using QGIS we can apply then following filter to the house table we find the houses sold within a 800m radius of the school.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">WHERE</span> ST_DWITHIN(
     (
         <span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) 
         <span style="color:#66d9ef">FROM</span> planet_osm_polygon 
-        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>
+        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>
     ), 
     geometry, 
     <span style="color:#ae81ff">800</span>
 );</code></pre></div>
-
-<p><img src="/images/select_points.png" alt="Houses within 800m of location 2018" /></p>
-
+<p><img src="/images/select_points.png" alt="Houses within 800m of location 2018"></p>
 <p>Finally we are in a position to calculate the average house price.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">min</span>(h.amount), <span style="color:#66d9ef">avg</span>(h.amount), <span style="color:#66d9ef">max</span>(h.amount) 
 <span style="color:#66d9ef">FROM</span> house <span style="color:#66d9ef">as</span> h 
 <span style="color:#66d9ef">WHERE</span> ST_DWITHIN(
     (
         <span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) 
         <span style="color:#66d9ef">FROM</span> planet_osm_polygon 
-        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>
+        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>
     ), 
     h.geometry, 
     <span style="color:#ae81ff">800</span>
 );</code></pre></div>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">gis<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">gis<span style="color:#f92672">=</span><span style="color:#f92672">#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
     <span style="color:#66d9ef">FROM</span> house h 
     <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> planet_osm_polygon pa <span style="color:#66d9ef">ON</span> ST_DWITHIN(ST_CENTROID(pa.way), h.geometry, <span style="color:#ae81ff">800</span>) 
-    <span style="color:#66d9ef">WHERE</span> pa.name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>;
+    <span style="color:#66d9ef">WHERE</span> pa.name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>;
 
   <span style="color:#66d9ef">min</span>   <span style="color:#f92672">|</span>         <span style="color:#66d9ef">avg</span>         <span style="color:#f92672">|</span>  <span style="color:#66d9ef">max</span>   
 <span style="color:#75715e">--------+---------------------+--------
@@ -244,10 +218,10 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
 
 Time: <span style="color:#ae81ff">641</span>.<span style="color:#ae81ff">007</span> ms
 
-gis<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
+gis<span style="color:#f92672">=</span><span style="color:#f92672">#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
     <span style="color:#66d9ef">FROM</span> house <span style="color:#66d9ef">as</span> h 
     <span style="color:#66d9ef">WHERE</span> ST_Dwithin(
-        (<span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) <span style="color:#66d9ef">FROM</span> planet_osm_polygon <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>), 
+        (<span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) <span style="color:#66d9ef">FROM</span> planet_osm_polygon <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>), 
         h.geometry, 
         <span style="color:#ae81ff">800</span>
     );
@@ -269,7 +243,7 @@ Time: <span style="color:#ae81ff">644</span>.<span style="color:#ae81ff">310</sp
             <div class="push"></div>
         </div>
         <footer class="footer text-center">
-<p>Copyright &copy; 2019 wrde of the day -
+<p>Copyright &copy; 2020 wrde of the day -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>

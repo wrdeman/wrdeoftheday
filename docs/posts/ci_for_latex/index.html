@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.58.1" />
+<meta name="generator" content="Hugo 0.64.1" />
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -103,23 +103,17 @@ ga('send', 'pageview');
             <h1><a href="https://www.wrdeoftheday.co.uk/posts/ci_for_latex/">CI for LaTex</a></h1>
             <span class="post-date">Aug 26, 2019 </span>
             <div class="post-content">
-                
-
-<h2 id="how-to-use-bitbucket-pipelines-to-generate-latex-documents">How to use bitbucket pipelines to generate LaTex documents</h2>
-
+                <h2 id="how-to-use-bitbucket-pipelines-to-generate-latex-documents">How to use bitbucket pipelines to generate LaTex documents</h2>
 <p>Why do this? It’s a handy way to have LaTex documents on the go and
 collaboration.</p>
-
 <h2 id="docker-container">Docker container</h2>
-
 <p>The typical way of installing LaTex is texlive and one would normally install the full version.
 Whilst, this is great it is pretty big.
 So I have created a container with a basic LaTex installation: <a href="https://hub.docker.com/r/wrdeman/docker-min-tex">https://hub.docker.com/r/wrdeman/docker-min-tex</a>
 This may or may not meet your requirements.</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu:bionic</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> DEBIAN_FRONTEND noninteractive</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> DEBIAN_FRONTEND noninteractive<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update -q <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> apt-get install --no-install-recommends -qy <span style="color:#ae81ff">\ </span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span>    libfontconfig1 <span style="color:#ae81ff">\
@@ -132,56 +126,43 @@ This may or may not meet your requirements.</p>
 </span><span style="color:#ae81ff"></span>    texlive-latex-recommended <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    texlive-latex-extra <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span><span style="color:#e6db74"> HOME /data</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> HOME /data<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /data</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> [&#34;/data&#34;]</span></code></pre></div>
-
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span> [<span style="color:#e6db74">&#34;/data&#34;</span>]</code></pre></div>
 <p>Using the image on docker hub, we create a pdf document as:</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run --rm -i --net<span style="color:#f92672">=</span>none -v <span style="color:#e6db74">&#34;</span>$PWD<span style="color:#e6db74">&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex</code></pre></div>
-
 <p>So far so good &hellip;</p>
-
 <h2 id="bitbucket-pipeline">Bitbucket pipeline</h2>
-
 <p>We can use bitbucket&rsquo;s pipeline to build our document and save the output as an downloadable file.
 First we need to create git repo with a latex file and bitbucket-pipelines.yml.</p>
-
 <p>The pipeline needs to</p>
-
 <ul>
 <li>run our previous docker command</li>
 <li>mark the output file as an artifact in the step</li>
 <li>send the output file to the download API endpoint</li>
 </ul>
-
 <p>as the following yml</p>
-
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">pipelines:
-  default:
-    - step:
-        services:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">pipelines</span>:
+  <span style="color:#66d9ef">default</span>:
+    - <span style="color:#66d9ef">step</span>:
+        <span style="color:#66d9ef">services</span>:
           - docker
-        script: 
+        <span style="color:#66d9ef">script</span>: 
           - docker run --rm -i --net=none -v <span style="color:#e6db74">&#34;$PWD&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex
-        artifacts:
+        <span style="color:#66d9ef">artifacts</span>:
           - a-document.pdf
-    - step:
-        script:   
+    - <span style="color:#66d9ef">step</span>:
+        <span style="color:#66d9ef">script</span>:   
           - curl -X POST --user <span style="color:#e6db74">&#34;${BB_STRING}&#34;</span> <span style="color:#e6db74">&#34;https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${BITBUCKET_REPO_SLUG}/downloads&#34;</span> --form files=@<span style="color:#e6db74">&#34;a-document.pdf&#34;</span> </code></pre></div>
-
 <p>We need to set some variables, in the repo&rsquo;s settings-&gt;reposity variables.
 These are:</p>
-
 <ul>
 <li>BB_STRING is the &ldquo;USERNAME:APP_PASSWORD&rdquo;</li>
 <li>BITBUCKET_USERNAME</li>
 <li>BITBUCKET_REPO_SLUG</li>
 </ul>
-
 <p>The APP_PASSWORD can be create in you bitbucket account settings-&gt;App passwords.</p>
-
 <p>Now when you commit the repo the pipeline will run and a document will appear in the repo&rsquo;s download directory.</p>
 
             </div>
@@ -193,7 +174,7 @@ These are:</p>
             <div class="push"></div>
         </div>
         <footer class="footer text-center">
-<p>Copyright &copy; 2019 wrde of the day -
+<p>Copyright &copy; 2020 wrde of the day -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>
