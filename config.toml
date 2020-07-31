@@ -34,10 +34,9 @@ tags = ["blog", "cv"]
   weight = 1
 
 [[menu.header]]
-  name = "music"
-  url = "/music"
+  name = "cycling"
+  url = "/cycling"
   weight = 1
-
 
 [privacy]
   [privacy.googleAnalytics]
