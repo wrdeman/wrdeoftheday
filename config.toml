@@ -38,6 +38,11 @@ tags = ["blog", "cv"]
   url = "/cycling"
   weight = 1
 
+[[menu.header]]
+  name = "music"
+  url = "/music"
+  weight = 1
+
 [privacy]
   [privacy.googleAnalytics]
     anonymizeIP = true
