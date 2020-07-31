@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.64.1" />
+<meta name="generator" content="Hugo 0.74.3" />
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -81,7 +81,7 @@ ga('send', 'pageview');
 				
 				<li class="dropdown">
                     
-            		<a href="/music">~/music</a>
+            		<a href="/cycling">~/cycling</a>
             		
         		</li>
         		
@@ -124,23 +124,23 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">psql -dgis -f data/gb_postcode_data.sql</code></pre></div></p>
 <h4 id="house-prices">House prices.</h4>
 <p>UK house prices are recorded by the Land Registry and they have a nice SPARQL console interface <a href="http://landregistry.data.gov.uk/app/qonsole">http://landregistry.data.gov.uk/app/qonsole</a>. Here we get the house prices for properties in MYTOWN in 2018 using the following SPARQL query:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sparql" data-lang="sparql"><span style="color:#66d9ef">prefix</span> rdf:<span style="color:#f92672"></span> &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
-<span style="color:#66d9ef">prefix</span> rdfs:<span style="color:#f92672"></span> &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
-<span style="color:#66d9ef">prefix</span> owl:<span style="color:#f92672"></span> &lt;http://www.w3.org/2002/07/owl#&gt;
-<span style="color:#66d9ef">prefix</span> xsd:<span style="color:#f92672"></span> &lt;http://www.w3.org/2001/XMLSchema#&gt;
-<span style="color:#66d9ef">prefix</span> sr:<span style="color:#f92672"></span> &lt;http://data.ordnancesurvey.co.uk/ontology/spatialrelations/&gt;
-<span style="color:#66d9ef">prefix</span> ukhpi:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/ukhpi/&gt;
-<span style="color:#66d9ef">prefix</span> lrppi:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/ppi/&gt;
-<span style="color:#66d9ef">prefix</span> skos:<span style="color:#f92672"></span> &lt;http://www.w3.org/2004/02/skos/core#&gt;
-<span style="color:#66d9ef">prefix</span> lrcommon:<span style="color:#f92672"></span> &lt;http://landregistry.data.gov.uk/def/common/&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sparql" data-lang="sparql"><span style="color:#66d9ef">prefix</span> rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+<span style="color:#66d9ef">prefix</span> rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+<span style="color:#66d9ef">prefix</span> owl: &lt;http://www.w3.org/2002/07/owl#&gt;
+<span style="color:#66d9ef">prefix</span> xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+<span style="color:#66d9ef">prefix</span> sr: &lt;http://data.ordnancesurvey.co.uk/ontology/spatialrelations/&gt;
+<span style="color:#66d9ef">prefix</span> ukhpi: &lt;http://landregistry.data.gov.uk/def/ukhpi/&gt;
+<span style="color:#66d9ef">prefix</span> lrppi: &lt;http://landregistry.data.gov.uk/def/ppi/&gt;
+<span style="color:#66d9ef">prefix</span> skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+<span style="color:#66d9ef">prefix</span> lrcommon: &lt;http://landregistry.data.gov.uk/def/common/&gt;
 
 <span style="color:#66d9ef">SELECT</span> ?paon ?saon ?street ?town ?county ?postcode ?amount ?date ?category
 <span style="color:#66d9ef">WHERE</span>
 {
-  <span style="color:#960050;background-color:#1e0010">V</span><span style="color:#960050;background-color:#1e0010">A</span><span style="color:#960050;background-color:#1e0010">L</span><span style="color:#960050;background-color:#1e0010">U</span><span style="color:#960050;background-color:#1e0010">E</span><span style="color:#960050;background-color:#1e0010">S</span> ?town {<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">MYTOWN</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">string</span>}
+  <span style="color:#960050;background-color:#1e0010">VALUES</span> ?town {<span style="color:#e6db74">&#34;MYTOWN&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">string</span>}
 <span style="color:#66d9ef">FILTER</span> (
-    ?date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2018-01-01</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span> <span style="color:#f92672">&amp;&amp;</span>
-    ?date <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2018-12-31</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span>
+    ?date <span style="color:#f92672">&gt;</span> <span style="color:#e6db74">&#34;2018-01-01&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span> <span style="color:#f92672">&amp;&amp;</span>
+    ?date <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2018-12-31&#34;</span><span style="color:#f92672">^^</span>xsd:<span style="color:#f92672">date</span>
   )
   ?addr lrcommon:<span style="color:#f92672">town</span> ?town.
 
@@ -188,7 +188,7 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
     (
         <span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) 
         <span style="color:#66d9ef">FROM</span> planet_osm_polygon 
-        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>
+        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>
     ), 
     geometry, 
     <span style="color:#ae81ff">800</span>
@@ -201,15 +201,15 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
     (
         <span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) 
         <span style="color:#66d9ef">FROM</span> planet_osm_polygon 
-        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>
+        <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>
     ), 
     h.geometry, 
     <span style="color:#ae81ff">800</span>
 );</code></pre></div>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">gis<span style="color:#f92672">=</span><span style="color:#f92672">#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">gis<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
     <span style="color:#66d9ef">FROM</span> house h 
     <span style="color:#66d9ef">LEFT</span> <span style="color:#66d9ef">JOIN</span> planet_osm_polygon pa <span style="color:#66d9ef">ON</span> ST_DWITHIN(ST_CENTROID(pa.way), h.geometry, <span style="color:#ae81ff">800</span>) 
-    <span style="color:#66d9ef">WHERE</span> pa.name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>;
+    <span style="color:#66d9ef">WHERE</span> pa.name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>;
 
   <span style="color:#66d9ef">min</span>   <span style="color:#f92672">|</span>         <span style="color:#66d9ef">avg</span>         <span style="color:#f92672">|</span>  <span style="color:#66d9ef">max</span>   
 <span style="color:#75715e">--------+---------------------+--------
@@ -218,10 +218,10 @@ gunzip gb_postcode_data.sql.gz</code></pre></div>
 
 Time: <span style="color:#ae81ff">641</span>.<span style="color:#ae81ff">007</span> ms
 
-gis<span style="color:#f92672">=</span><span style="color:#f92672">#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
+gis<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">MIN</span>(h.amount), <span style="color:#66d9ef">AVG</span>(h.amount), <span style="color:#66d9ef">MAX</span>(h.amount) 
     <span style="color:#66d9ef">FROM</span> house <span style="color:#66d9ef">as</span> h 
     <span style="color:#66d9ef">WHERE</span> ST_Dwithin(
-        (<span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) <span style="color:#66d9ef">FROM</span> planet_osm_polygon <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%SCHOOL NAME%</span><span style="color:#e6db74">&#39;</span>), 
+        (<span style="color:#66d9ef">SELECT</span> ST_CENTROID(way) <span style="color:#66d9ef">FROM</span> planet_osm_polygon <span style="color:#66d9ef">WHERE</span> name <span style="color:#66d9ef">ILIKE</span> <span style="color:#e6db74">&#39;%SCHOOL NAME%&#39;</span>), 
         h.geometry, 
         <span style="color:#ae81ff">800</span>
     );

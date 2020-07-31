@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.64.1" />
+<meta name="generator" content="Hugo 0.74.3" />
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -81,7 +81,7 @@ ga('send', 'pageview');
 				
 				<li class="dropdown">
                     
-            		<a href="/music">~/music</a>
+            		<a href="/cycling">~/cycling</a>
             		
         		</li>
         		
@@ -120,8 +120,8 @@ ga('send', 'pageview');
     current <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(default<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000</span>)                             
                                                                               
     <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_withdrawl</span>(self, value<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):                                         
-        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>current <span style="color:#f92672">&gt;</span><span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>minimum:                                     
-            self<span style="color:#f92672">.</span>current <span style="color:#f92672">-</span><span style="color:#f92672">=</span> value                                              
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>current <span style="color:#f92672">&gt;=</span> self<span style="color:#f92672">.</span>minimum:                                     
+            self<span style="color:#f92672">.</span>current <span style="color:#f92672">-=</span> value                                              
             self<span style="color:#f92672">.</span>save()                                                        
         <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>current                                                    
                                                                               
@@ -138,14 +138,14 @@ ga('send', 'pageview');
                                                                                
                                                                                           
 <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WithdrawView</span>(View):                                                         
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">*</span><span style="color:#f92672">*</span>kwargs):                                   
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):                                   
         <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>user<span style="color:#f92672">.</span>is_authenticated:                                      
             holder <span style="color:#f92672">=</span> Account<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter(user<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>user)<span style="color:#f92672">.</span>first()         
             current <span style="color:#f92672">=</span> holder<span style="color:#f92672">.</span>current                                            
             <span style="color:#66d9ef">return</span> HttpResponse(current)                                                       
-        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&#34;</span>)                                                
+        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;&#34;</span>)                                                
                                                                                
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">*</span><span style="color:#f92672">*</span>kwargs):                                                    
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):                                                    
         holder <span style="color:#f92672">=</span> Account<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter(user<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>user)<span style="color:#f92672">.</span>first()             
         current <span style="color:#f92672">=</span> holder<span style="color:#f92672">.</span>make_withdrawl()                                      
         Transaction<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>create(                                            
@@ -164,14 +164,14 @@ ga('send', 'pageview');
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CSRF<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat cookies.txt | grep csrftoken | awk -F<span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#39;{print $7}&#39;</span><span style="color:#66d9ef">)</span>              </code></pre></div></p>
 <p>Using the token we can login saving a new cookies file, which now includes the sessionid:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">                                                
-curl -i --cookie cookies.txt -H <span style="color:#e6db74">&#34;X-CSRFToken:&#34;</span>$CSRF<span style="color:#e6db74">&#34;&#34;</span> -H<span style="color:#e6db74">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -X POST -d <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">username=</span>$UNAME<span style="color:#e6db74">&#34;</span> -d <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">password=</span>$PWORD<span style="color:#e6db74">&#34;</span> http://localhost:8001/auth/login/ -c new_cookies.txt</code></pre></div>                                                                          <br>
+curl -i --cookie cookies.txt -H <span style="color:#e6db74">&#34;X-CSRFToken:&#34;</span>$CSRF<span style="color:#e6db74">&#34;&#34;</span> -H<span style="color:#e6db74">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -X POST -d <span style="color:#e6db74">&#34;username=</span>$UNAME<span style="color:#e6db74">&#34;</span> -d <span style="color:#e6db74">&#34;password=</span>$PWORD<span style="color:#e6db74">&#34;</span> http://localhost:8001/auth/login/ -c new_cookies.txt</code></pre></div>                                                                          <br>
 As with the CSRF token we can grab the sessionid:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">SESSION<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat new_cookies.txt | grep session | awk -F<span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#39;{print $7}&#39;</span><span style="color:#66d9ef">)</span>         </code></pre></div></p>
 <h4 id="benchmark-1">Benchmark</h4>
 <p>Now done to the serious business of using Ab to make a number of concurrent requests. This will make a total of 100 requests (<code>-n 100</code>) with 3 concurrent requests (<code>-c 3</code>). Note that I had to combine my cookies together separated with a semicolon.
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ab -n <span style="color:#ae81ff">100</span> -c <span style="color:#ae81ff">3</span> -C <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">sessionid=</span>$SESSION<span style="color:#e6db74">;csrftoken=</span>$CSRF<span style="color:#e6db74">&#34;</span> -H <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">X-CSRFToken:</span>$CSRF<span style="color:#e6db74">&#34;</span> -T<span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -mPOST http://localhost:8001/accounts/withdraw/</code></pre></div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ab -n <span style="color:#ae81ff">100</span> -c <span style="color:#ae81ff">3</span> -C <span style="color:#e6db74">&#34;sessionid=</span>$SESSION<span style="color:#e6db74">;csrftoken=</span>$CSRF<span style="color:#e6db74">&#34;</span> -H <span style="color:#e6db74">&#34;X-CSRFToken:</span>$CSRF<span style="color:#e6db74">&#34;</span> -T<span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> -mPOST http://localhost:8001/accounts/withdraw/</code></pre></div></p>
 <p>What does this tell us? First, we have created 100 transactions (<code>Transaction.objects.count()</code>). Second, the current value on the Account model is only 999953 where as you&rsquo;d hope after 100 withdrawls of value 1 you&rsquo;d be at 999900. We can count the number of single transactions by grouping the transactions by balance and aggregating, as follows:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Transaction<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>values(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">balance</span><span style="color:#e6db74">&#34;</span>)<span style="color:#f92672">.</span>annotate(count<span style="color:#f92672">=</span>Count(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">id</span><span style="color:#e6db74">&#34;</span>))<span style="color:#f92672">.</span>aggregate(Count(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">count</span><span style="color:#e6db74">&#34;</span>)) </code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Transaction<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>values(<span style="color:#e6db74">&#34;balance&#34;</span>)<span style="color:#f92672">.</span>annotate(count<span style="color:#f92672">=</span>Count(<span style="color:#e6db74">&#34;id&#34;</span>))<span style="color:#f92672">.</span>aggregate(Count(<span style="color:#e6db74">&#34;count&#34;</span>)) </code></pre></div>
 which evaluates, in this case, to 47. No suprises there.</p>
 <h3 id="finally-">Finally &hellip;</h3>
 <p>So there we have it. We can use Apache Bench to make a number of concurrent HTTP requests and observe it&rsquo;s effect on out application.</p>
