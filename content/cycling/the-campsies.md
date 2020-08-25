@@ -1,7 +1,7 @@
 ---
 title: "The Campsies"
 date: 2020-07-31T08:18:24Z
-draft: false
+draft: true
 ---
 
 ## Cycling around the Campsies
