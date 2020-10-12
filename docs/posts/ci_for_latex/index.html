@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.74.3" />
+<meta name="generator" content="Hugo 0.76.4" />
 
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -150,18 +150,18 @@ First we need to create git repo with a latex file and bitbucket-pipelines.yml.<
 <li>send the output file to the download API endpoint</li>
 </ul>
 <p>as the following yml</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">pipelines</span>:
-  <span style="color:#66d9ef">default</span>:
-    - <span style="color:#66d9ef">step</span>:
-        <span style="color:#66d9ef">services</span>:
-          - docker
-        <span style="color:#66d9ef">script</span>: 
-          - docker run --rm -i --net=none -v <span style="color:#e6db74">&#34;$PWD&#34;</span>:/data wrdeman/docker-min-tex pdflatex a-document.tex
-        <span style="color:#66d9ef">artifacts</span>:
-          - a-document.pdf
-    - <span style="color:#66d9ef">step</span>:
-        <span style="color:#66d9ef">script</span>:   
-          - curl -X POST --user <span style="color:#e6db74">&#34;${BB_STRING}&#34;</span> <span style="color:#e6db74">&#34;https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${BITBUCKET_REPO_SLUG}/downloads&#34;</span> --form files=@<span style="color:#e6db74">&#34;a-document.pdf&#34;</span> </code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">pipelines</span>:
+  <span style="color:#f92672">default</span>:
+    - <span style="color:#f92672">step</span>:
+        <span style="color:#f92672">services</span>:
+          - <span style="color:#ae81ff">docker</span>
+        <span style="color:#f92672">script</span>: 
+          - <span style="color:#ae81ff">docker run --rm -i --net=none -v &#34;$PWD&#34;:/data wrdeman/docker-min-tex pdflatex a-document.tex</span>
+        <span style="color:#f92672">artifacts</span>:
+          - <span style="color:#ae81ff">a-document.pdf</span>
+    - <span style="color:#f92672">step</span>:
+        <span style="color:#f92672">script</span>:   
+          - <span style="color:#ae81ff">curl -X POST --user &#34;${BB_STRING}&#34; &#34;https://api.bitbucket.org/2.0/repositories/${BITBUCKET_USERNAME}/${BITBUCKET_REPO_SLUG}/downloads&#34; --form files=@&#34;a-document.pdf&#34; </span></code></pre></div>
 <p>We need to set some variables, in the repo&rsquo;s settings-&gt;reposity variables.
 These are:</p>
 <ul>

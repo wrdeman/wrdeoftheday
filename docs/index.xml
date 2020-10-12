@@ -6,10 +6,16 @@
     <description>Recent content on Wrde Of The Day</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 27 Aug 2019 20:50:24 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 28 Sep 2020 20:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trying out Apache Spark 1</title>
+      <link>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</link>
+      <pubDate>Mon, 28 Sep 2020 20:05:42 +0000</pubDate>
+      
+      <guid>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</guid>
+      <description>Spark and IMDB data Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
+from pyspark.sql import SparkSession from pyspark.sql.functions import col, split, explode from pyspark.sql.types import ArrayType, StringType # create spark session spark = SparkSession.builder.getOrCreate() # read in names  fnames = &amp;#39;/data/name.basics.tsv&amp;#39; names = spark.read.csv(fnames, sep=r&amp;#39;\t&amp;#39;, header=True) names.count() 10375296  names.printSchema() root |-- nconst: string (nullable = true) |-- primaryName: string (nullable = true) |-- birthYear: string (nullable = true) |-- deathYear: string (nullable = true) |-- primaryProfession: string (nullable = true) |-- knownForTitles: string (nullable = true)  names.</description>
+    </item>
     
     <item>
       <title>Great Brass</title>
