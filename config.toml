@@ -33,16 +33,6 @@ tags = ["blog", "cv"]
   url = "/about"
   weight = 1
 
-[[menu.header]]
-  name = "cycling"
-  url = "/cycling"
-  weight = 1
-
-[[menu.header]]
-  name = "music"
-  url = "/music"
-  weight = 1
-
 [privacy]
   [privacy.googleAnalytics]
     anonymizeIP = true
