@@ -81,20 +81,6 @@ ga('send', 'pageview');
 				
 				<li class="dropdown">
                     
-            		<a href="/cycling">~/cycling</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="/music">~/music</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
             		<a href="/posts">~/posts</a>
             		
         		</li>
@@ -120,8 +106,8 @@ ga('send', 'pageview');
 							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/">Trying out Apache Spark 1</a></h4>
 							<h4 class="post-date">Sep 28, 2020</h4>
 						</div>
-						<div class="post-summary"><p>Spark and IMDB data Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
-from pyspark.sql import SparkSession from pyspark.sql.functions import col, split, explode from pyspark.sql.types import ArrayType, StringType # create spark session spark = SparkSession.builder.getOrCreate() # read in names  fnames = &#39;/data/name.basics.tsv&#39; names = spark.read.csv(fnames, sep=r&#39;\t&#39;, header=True) names.count() 10375296  names.printSchema() root |-- nconst: string (nullable = true) |-- primaryName: string (nullable = true) |-- birthYear: string (nullable = true) |-- deathYear: string (nullable = true) |-- primaryProfession: string (nullable = true) |-- knownForTitles: string (nullable = true)  names.</p></div>
+						<div class="post-summary"><p><h3 id="spark-and-imdb-data">Spark and IMDB data</h3>
+<p>Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: <a href="https://www.imdb.com/interfaces/">https://www.imdb.com/interfaces/</a></p></p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/">Read More</a>
 						</div>

@@ -13,8 +13,8 @@
       <pubDate>Mon, 28 Sep 2020 20:05:42 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</guid>
-      <description>Spark and IMDB data Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
-from pyspark.sql import SparkSession from pyspark.sql.functions import col, split, explode from pyspark.sql.types import ArrayType, StringType # create spark session spark = SparkSession.builder.getOrCreate() # read in names  fnames = &amp;#39;/data/name.basics.tsv&amp;#39; names = spark.read.csv(fnames, sep=r&amp;#39;\t&amp;#39;, header=True) names.count() 10375296  names.printSchema() root |-- nconst: string (nullable = true) |-- primaryName: string (nullable = true) |-- birthYear: string (nullable = true) |-- deathYear: string (nullable = true) |-- primaryProfession: string (nullable = true) |-- knownForTitles: string (nullable = true)  names.</description>
+      <description>&lt;h3 id=&#34;spark-and-imdb-data&#34;&gt;Spark and IMDB data&lt;/h3&gt;
+&lt;p&gt;Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: &lt;a href=&#34;https://www.imdb.com/interfaces/&#34;&gt;https://www.imdb.com/interfaces/&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
