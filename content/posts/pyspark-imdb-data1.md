@@ -10,7 +10,6 @@ Using this to try out some techniqkues with Apache Spark. The data is a subset o
 <!--more-->
 
 
-
 ```python
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, split, explode
