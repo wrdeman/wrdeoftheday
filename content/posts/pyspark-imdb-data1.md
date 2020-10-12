@@ -7,6 +7,8 @@ draft: false
 
 Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
 
+<!--more-->
+
 
 
 ```python
