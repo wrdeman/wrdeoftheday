@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Trying out Apache Spark 1 &middot; Wrde Of The Day </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.76.4" />
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://www.wrdeoftheday.co.uk/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-146772833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://www.wrdeoftheday.co.uk>wrde@man ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://www.wrdeoftheday.co.uk">/home/wrde</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/cycling">~/cycling</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/music">~/music</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/posts">~/posts</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/">Trying out Apache Spark 1</a></h1>
+            <span class="post-date">Sep 28, 2020 </span>
+            <div class="post-content">
+                <h3 id="spark-and-imdb-data">Spark and IMDB data</h3>
+<p>Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: <a href="https://www.imdb.com/interfaces/">https://www.imdb.com/interfaces/</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pyspark.sql <span style="color:#f92672">import</span> SparkSession
+<span style="color:#f92672">from</span> pyspark.sql.functions <span style="color:#f92672">import</span> col, split, explode
+<span style="color:#f92672">from</span> pyspark.sql.types <span style="color:#f92672">import</span> ArrayType, StringType
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># create spark session</span>
+spark <span style="color:#f92672">=</span> SparkSession<span style="color:#f92672">.</span>builder<span style="color:#f92672">.</span>getOrCreate()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># read in names </span>
+fnames <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/data/name.basics.tsv&#39;</span>
+names <span style="color:#f92672">=</span> spark<span style="color:#f92672">.</span>read<span style="color:#f92672">.</span>csv(fnames, sep<span style="color:#f92672">=</span><span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\t&#39;</span>, header<span style="color:#f92672">=</span>True)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">names<span style="color:#f92672">.</span>count()
+</code></pre></div><pre><code>10375296
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">names<span style="color:#f92672">.</span>printSchema()
+</code></pre></div><pre><code>root
+ |-- nconst: string (nullable = true)
+ |-- primaryName: string (nullable = true)
+ |-- birthYear: string (nullable = true)
+ |-- deathYear: string (nullable = true)
+ |-- primaryProfession: string (nullable = true)
+ |-- knownForTitles: string (nullable = true)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">names<span style="color:#f92672">.</span>show()
+</code></pre></div><pre><code>+---------+-------------------+---------+---------+--------------------+--------------------+
+|   nconst|        primaryName|birthYear|deathYear|   primaryProfession|      knownForTitles|
++---------+-------------------+---------+---------+--------------------+--------------------+
+|nm0000001|       Fred Astaire|     1899|     1987|soundtrack,actor,...|tt0031983,tt00504...|
+|nm0000002|      Lauren Bacall|     1924|     2014|  actress,soundtrack|tt0038355,tt01170...|
+|nm0000003|    Brigitte Bardot|     1934|       \N|actress,soundtrac...|tt0054452,tt00599...|
+|nm0000004|       John Belushi|     1949|     1982|actor,soundtrack,...|tt0077975,tt00725...|
+|nm0000005|     Ingmar Bergman|     1918|     2007|writer,director,a...|tt0083922,tt00509...|
+|nm0000006|     Ingrid Bergman|     1915|     1982|actress,soundtrac...|tt0036855,tt00345...|
+|nm0000007|    Humphrey Bogart|     1899|     1957|actor,soundtrack,...|tt0043265,tt00338...|
+|nm0000008|      Marlon Brando|     1924|     2004|actor,soundtrack,...|tt0070849,tt00787...|
+|nm0000009|     Richard Burton|     1925|     1984|actor,soundtrack,...|tt0087803,tt00611...|
+|nm0000010|       James Cagney|     1899|     1986|actor,soundtrack,...|tt0042041,tt00355...|
+|nm0000011|        Gary Cooper|     1901|     1961|actor,soundtrack,...|tt0044706,tt00279...|
+|nm0000012|        Bette Davis|     1908|     1989|actress,soundtrac...|tt0056687,tt00312...|
+|nm0000013|          Doris Day|     1922|     2019|soundtrack,actres...|tt0060463,tt00540...|
+|nm0000014|Olivia de Havilland|     1916|     2020|  actress,soundtrack|tt0040806,tt00414...|
+|nm0000015|         James Dean|     1931|     1955| actor,miscellaneous|tt0049261,tt00432...|
+|nm0000016|    Georges Delerue|     1925|     1992|composer,soundtra...|tt0057345,tt00963...|
+|nm0000017|   Marlene Dietrich|     1901|     1992|soundtrack,actres...|tt0055031,tt00512...|
+|nm0000018|       Kirk Douglas|     1916|     2020|actor,producer,so...|tt0054331,tt00494...|
+|nm0000019|   Federico Fellini|     1920|     1993|writer,director,a...|tt0050783,tt00711...|
+|nm0000020|        Henry Fonda|     1905|     1982|actor,producer,so...|tt0082846,tt00325...|
++---------+-------------------+---------+---------+--------------------+--------------------+
+only showing top 20 rows
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">ftitles <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/data/title.basics.tsv&#39;</span>
+titles <span style="color:#f92672">=</span> spark<span style="color:#f92672">.</span>read<span style="color:#f92672">.</span>csv(ftitles, sep<span style="color:#f92672">=</span><span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;\t&#39;</span>, header<span style="color:#f92672">=</span>True)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titles<span style="color:#f92672">.</span>count()
+</code></pre></div><pre><code>7179817
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">titles<span style="color:#f92672">.</span>printSchema()
+</code></pre></div><pre><code>root
+ |-- tconst: string (nullable = true)
+ |-- titleType: string (nullable = true)
+ |-- primaryTitle: string (nullable = true)
+ |-- originalTitle: string (nullable = true)
+ |-- isAdult: string (nullable = true)
+ |-- startYear: string (nullable = true)
+ |-- endYear: string (nullable = true)
+ |-- runtimeMinutes: string (nullable = true)
+ |-- genres: string (nullable = true)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#39;&#39;&#39; 
+</span><span style="color:#e6db74">name.knownForTimes &gt;- titles.tconst
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">so we will create a name for each knownForTitle entry
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+names <span style="color:#f92672">=</span> names<span style="color:#f92672">.</span>withColumn(
+    <span style="color:#e6db74">&#39;knownForTitles&#39;</span>, 
+    split(
+        col(<span style="color:#e6db74">&#39;knownForTitles&#39;</span>), <span style="color:#e6db74">&#39;,&#39;</span>
+    )<span style="color:#f92672">.</span>cast(ArrayType(StringType()))<span style="color:#f92672">.</span>alias(<span style="color:#e6db74">&#39;knownForTitles&#39;</span>)
+)<span style="color:#f92672">.</span>withColumn(
+    <span style="color:#e6db74">&#39;knownForTitle&#39;</span>,
+    explode(<span style="color:#e6db74">&#39;knownForTitles&#39;</span>)
+)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># now join denormalized names with titles</span>
+names <span style="color:#f92672">=</span> names<span style="color:#f92672">.</span>join(titles, names<span style="color:#f92672">.</span>knownForTitle <span style="color:#f92672">==</span> titles<span style="color:#f92672">.</span>tconst)
+names<span style="color:#f92672">.</span>write<span style="color:#f92672">.</span>mode(<span style="color:#e6db74">&#39;overwrite&#39;</span>)<span style="color:#f92672">.</span>parquet(<span style="color:#e6db74">&#39;/data/test.parquet&#39;</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">names<span style="color:#f92672">.</span>printSchema()
+</code></pre></div><pre><code>root
+ |-- nconst: string (nullable = true)
+ |-- primaryName: string (nullable = true)
+ |-- birthYear: string (nullable = true)
+ |-- deathYear: string (nullable = true)
+ |-- primaryProfession: string (nullable = true)
+ |-- knownForTitles: array (nullable = true)
+ |    |-- element: string (containsNull = true)
+ |-- knownForTitle: string (nullable = true)
+ |-- tconst: string (nullable = true)
+ |-- titleType: string (nullable = true)
+ |-- primaryTitle: string (nullable = true)
+ |-- originalTitle: string (nullable = true)
+ |-- isAdult: string (nullable = true)
+ |-- startYear: string (nullable = true)
+ |-- endYear: string (nullable = true)
+ |-- runtimeMinutes: string (nullable = true)
+ |-- genres: string (nullable = true)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Find Fred Astaire&#39;s films</span>
+names<span style="color:#f92672">.</span>filter(names<span style="color:#f92672">.</span>nconst<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;nm0000001&#39;</span>)<span style="color:#f92672">.</span>select(<span style="color:#e6db74">&#39;primaryTitle&#39;</span>)<span style="color:#f92672">.</span>show()
+</code></pre></div><pre><code>+--------------------+
+|        primaryTitle|
++--------------------+
+|          Funny Face|
+|        On the Beach|
+|The Towering Inferno|
+|The Story of Vern...|
++--------------------+
+</code></pre>
+
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2020 wrde of the day -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+
+    </body>
