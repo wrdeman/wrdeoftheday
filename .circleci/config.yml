@@ -20,8 +20,6 @@ jobs:
       - run: git checkout dev
       - run: git branch --set-upstream-to=origin/dev dev
       - run: git pull
-      # - run: git clone git@github.com:wrdeman/wrdeoftheday.git
-      # install git submodules for managing third-party dependencies
       - run: git config user.email "wrdeplay@gmail.com"
       - run: git config user.name "ci-build"
       - run: 
@@ -30,7 +28,7 @@ jobs:
             git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
       - run: git checkout master
       - run: git pull -Xtheirs origin master --no-commit
-      - run: git commit -m"merged"
+      - run: git commit -m"merged" || exit 0
       - run: git merge dev --commit -m"merge"
       - run: rm -rf docs/*
       - run: hugo -d docs
