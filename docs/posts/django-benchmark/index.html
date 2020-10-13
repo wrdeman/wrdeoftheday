@@ -97,7 +97,8 @@ ga('send', 'pageview');
             <span class="post-date">Feb 2, 2019 </span>
             <div class="post-content">
                 <h2 id="concurrency-django-and-apache-bench">Concurrency, Django and Apache Bench</h2>
-<p>The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbug</a>. I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present.</p>
+<p>The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbug</a>.</p>
+<p>I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present.</p>
 <p>The app for this demo can be found <a href="https://github.com/wrdeman/demo-concurrency">here</a>.</p>
 <h3 id="django-app">Django App</h3>
 <p>For this task I will use a simple Django App with Session Authentication, a GET endpoint for retrieving the account balance, and a POST endpoint for making a withdrawl. I have chosen to use a POST request for the withdrawl method to illustrate how to use Apache Bench (Ab) with cookies.</p>
@@ -168,7 +169,6 @@ As with the CSRF token we can grab the sessionid:
 which evaluates, in this case, to 47. No suprises there.</p>
 <h3 id="finally-">Finally &hellip;</h3>
 <p>So there we have it. We can use Apache Bench to make a number of concurrent HTTP requests and observe it&rsquo;s effect on out application.</p>
-
             </div>
             
             <div class="post-comments">

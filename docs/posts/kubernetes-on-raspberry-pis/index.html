@@ -102,6 +102,11 @@ ga('send', 'pageview');
 <p>The code is at <a href="https://github.com/wrdeman/wrde-pi">https://github.com/wrdeman/wrde-pi</a></p>
 <h3 id="topology">Topology</h3>
 <p>I will have 4 Pis for the kubernetes cluster, a master and three workers, and a Pi acting as a network file system. They Pis are a combination of 4 and 3Bs.</p>
+<h3 id="requirements">Requirements</h3>
+<ol>
+<li>ansible</li>
+<li>ansible.posix</li>
+</ol>
 <h3 id="preparing-the-pis">Preparing the Pis</h3>
 <p>The first thing to do is to install a OS image onto the Pis' SD card. This is a bit boring. I am using an Ubuntu image and have dutifully followed: <a href="https://ubuntu.com/download/raspberry-pi">https://ubuntu.com/download/raspberry-pi</a></p>
 <p>Next is to fix the IP addresses for each Pi. I could have probably done this using ansible but &hellip; I didn&rsquo;t. Ubuntu uses <code>netplan</code> for network configuration.</p>
@@ -172,10 +177,9 @@ ansible_python_interpreter=/usr/bin/python3
 <script type="application/javascript" src="https://gist.github.com/wrdeman/8b7de7a7b28cf764f59bddd1548188d5.js"></script>
 
 <h4 id="kubernetes">kubernetes</h4>
-<p>In a similar manner we can install kubernetes. There is no release candidate for ubuntu 20.04 so I am using that from 18.04.</p>
-<script type="application/javascript" src="https://gist.github.com/wrdeman/9bb38318ebaec127a4351a5296d3cbef.js"></script>
-
-
+<p>In a similar manner we can install kubernetes.  There is no release candidate for ubuntu 20.04 so I am using that from 18.04. So we mark the kubernetes packages as <code>hold</code> so they are not updated or upgraded. Kubernetes needs the iptables to see bridged traffic <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic">see here</a> and for this we make use of some specific POSIX functions and this requiring us to install <code>ansible.posix</code>:</p>
+<pre><code>ansible-galaxy collection install ansible.posix
+</code></pre><script type="application/javascript" src="https://gist.github.com/wrdeman/9bb38318ebaec127a4351a5296d3cbef.js"></script>
             </div>
             
             <div class="post-comments">

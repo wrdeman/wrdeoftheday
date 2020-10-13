@@ -97,7 +97,8 @@ ga('send', 'pageview');
             <span class="post-date">Jan 28, 2019 </span>
             <div class="post-content">
                 <h3 id="whats-the-average-house-price-in-a-schools-catchment-area">What&rsquo;s the average house price in a school&rsquo;s catchment area?</h3>
-<p>In order to calculate the average house price in a school&rsquo;s catchment area, we are going to use PostGIS and OpenStreetMap. We&rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&rsquo;s Nominatim. The location of the schools can be found in OpenStreetMap&rsquo;s polygon table.</p>
+<p>In order to calculate the average house price in a school&rsquo;s catchment area,</p>
+<p>we are going to use PostGIS and OpenStreetMap. We&rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&rsquo;s Nominatim. The location of the schools can be found in OpenStreetMap&rsquo;s polygon table.</p>
 <p>In this example we are using <code>MYTOWN</code> and <code>SCHOOL NAME</code> as aliases.</p>
 <h4 id="openstreetmap">OpenStreetMap</h4>
 <p>There are good instructions on how to setup OpenStreetMap <a href="https://switch2osm.org/manually-building-a-tile-server-18-04-lts/">here</a> and I recommend following these.</p>
@@ -226,7 +227,6 @@ gis<span style="color:#f92672">=#</span> <span style="color:#66d9ef">SELECT</spa
 (<span style="color:#ae81ff">1</span> <span style="color:#66d9ef">row</span>)
 
 Time: <span style="color:#ae81ff">644</span>.<span style="color:#ae81ff">310</span> ms</code></pre></div>
-
             </div>
             
             <div class="post-comments">
