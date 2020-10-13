@@ -81,20 +81,6 @@ ga('send', 'pageview');
 				
 				<li class="dropdown">
                     
-            		<a href="/cycling">~/cycling</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-            		<a href="/music">~/music</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
             		<a href="/posts">~/posts</a>
             		
         		</li>
@@ -117,11 +103,25 @@ ga('send', 'pageview');
 				<li>
 					<div class="post-list-item">
 						<div class="post-header">
+							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/">Running Kubernetes on Raspberry PIs</a></h4>
+							<h4 class="post-date">Oct 13, 2020</h4>
+						</div>
+						<div class="post-summary"><p><h3 id="another-blog-about-kubernetes-and-raspberry-pis">Another blog about kubernetes and raspberry pis</h3>
+<p>Why am I doing this? Why don&rsquo;t you use minikube? It&rsquo;s something to do.</p></p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
 							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/">Trying out Apache Spark 1</a></h4>
 							<h4 class="post-date">Sep 28, 2020</h4>
 						</div>
-						<div class="post-summary"><p>Spark and IMDB data Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
-from pyspark.sql import SparkSession from pyspark.sql.functions import col, split, explode from pyspark.sql.types import ArrayType, StringType # create spark session spark = SparkSession.builder.getOrCreate() # read in names  fnames = &#39;/data/name.basics.tsv&#39; names = spark.read.csv(fnames, sep=r&#39;\t&#39;, header=True) names.count() 10375296  names.printSchema() root |-- nconst: string (nullable = true) |-- primaryName: string (nullable = true) |-- birthYear: string (nullable = true) |-- deathYear: string (nullable = true) |-- primaryProfession: string (nullable = true) |-- knownForTitles: string (nullable = true)  names.</p></div>
+						<div class="post-summary"><p><h3 id="spark-and-imdb-data">Spark and IMDB data</h3>
+<p>Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: <a href="https://www.imdb.com/interfaces/">https://www.imdb.com/interfaces/</a></p></p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/">Read More</a>
 						</div>
@@ -134,8 +134,9 @@ from pyspark.sql import SparkSession from pyspark.sql.functions import col, spli
 							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/ci_for_latex/">CI for LaTex</a></h4>
 							<h4 class="post-date">Aug 26, 2019</h4>
 						</div>
-						<div class="post-summary"><p>How to use bitbucket pipelines to generate LaTex documents Why do this? It’s a handy way to have LaTex documents on the go and collaboration.
-Docker container The typical way of installing LaTex is texlive and one would normally install the full version. Whilst, this is great it is pretty big. So I have created a container with a basic LaTex installation: https://hub.docker.com/r/wrdeman/docker-min-tex This may or may not meet your requirements.</p></div>
+						<div class="post-summary"><p><h2 id="how-to-use-bitbucket-pipelines-to-generate-latex-documents">How to use bitbucket pipelines to generate LaTex documents</h2>
+<p>Why do this? It’s a handy way to have LaTex documents on the go and
+collaboration.</p></p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://www.wrdeoftheday.co.uk/posts/ci_for_latex/">Read More</a>
 						</div>
@@ -148,7 +149,8 @@ Docker container The typical way of installing LaTex is texlive and one would no
 							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/django-benchmark/">Django Benchmark</a></h4>
 							<h4 class="post-date">Feb 2, 2019</h4>
 						</div>
-						<div class="post-summary"><p>Concurrency, Django and Apache Bench The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called Heisenbug. I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present.</p></div>
+						<div class="post-summary"><p><h2 id="concurrency-django-and-apache-bench">Concurrency, Django and Apache Bench</h2>
+<p>The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called <a href="https://en.wikipedia.org/wiki/Heisenbug">Heisenbug</a>.</p></p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://www.wrdeoftheday.co.uk/posts/django-benchmark/">Read More</a>
 						</div>
@@ -161,7 +163,8 @@ Docker container The typical way of installing LaTex is texlive and one would no
 							<h4 class="post-link"><a href="https://www.wrdeoftheday.co.uk/posts/average-house-prices/">Average House Prices</a></h4>
 							<h4 class="post-date">Jan 28, 2019</h4>
 						</div>
-						<div class="post-summary"><p>What&rsquo;s the average house price in a school&rsquo;s catchment area? In order to calculate the average house price in a school&rsquo;s catchment area, we are going to use PostGIS and OpenStreetMap. We&rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&rsquo;s Nominatim.</p></div>
+						<div class="post-summary"><p><h3 id="whats-the-average-house-price-in-a-schools-catchment-area">What&rsquo;s the average house price in a school&rsquo;s catchment area?</h3>
+<p>In order to calculate the average house price in a school&rsquo;s catchment area,</p></p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://www.wrdeoftheday.co.uk/posts/average-house-prices/">Read More</a>
 						</div>

@@ -6,25 +6,25 @@
     <description>Recent content on Wrde Of The Day</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 20:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Oct 2020 10:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Kubernetes on Raspberry PIs</title>
+      <link>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</link>
+      <pubDate>Tue, 13 Oct 2020 10:05:42 +0000</pubDate>
+      
+      <guid>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</guid>
+      <description>&lt;h3 id=&#34;another-blog-about-kubernetes-and-raspberry-pis&#34;&gt;Another blog about kubernetes and raspberry pis&lt;/h3&gt;
+&lt;p&gt;Why am I doing this? Why don&amp;rsquo;t you use minikube? It&amp;rsquo;s something to do.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Trying out Apache Spark 1</title>
       <link>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</link>
       <pubDate>Mon, 28 Sep 2020 20:05:42 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</guid>
-      <description>Spark and IMDB data Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
-from pyspark.sql import SparkSession from pyspark.sql.functions import col, split, explode from pyspark.sql.types import ArrayType, StringType # create spark session spark = SparkSession.builder.getOrCreate() # read in names  fnames = &amp;#39;/data/name.basics.tsv&amp;#39; names = spark.read.csv(fnames, sep=r&amp;#39;\t&amp;#39;, header=True) names.count() 10375296  names.printSchema() root |-- nconst: string (nullable = true) |-- primaryName: string (nullable = true) |-- birthYear: string (nullable = true) |-- deathYear: string (nullable = true) |-- primaryProfession: string (nullable = true) |-- knownForTitles: string (nullable = true)  names.</description>
-    </item>
-    
-    <item>
-      <title>Great Brass</title>
-      <link>https://www.wrdeoftheday.co.uk/music/great-brass/</link>
-      <pubDate>Tue, 27 Aug 2019 20:50:24 +0000</pubDate>
-      
-      <guid>https://www.wrdeoftheday.co.uk/music/great-brass/</guid>
-      <description>A collection of great brass tunes This is a curated list of music that features great brass.
-I can’t find a recording of Overture Promenade by Frank Bryce but this video is really good:</description>
+      <description>&lt;h3 id=&#34;spark-and-imdb-data&#34;&gt;Spark and IMDB data&lt;/h3&gt;
+&lt;p&gt;Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: &lt;a href=&#34;https://www.imdb.com/interfaces/&#34;&gt;https://www.imdb.com/interfaces/&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -33,8 +33,9 @@ I can’t find a recording of Overture Promenade by Frank Bryce but this video i
       <pubDate>Mon, 26 Aug 2019 19:38:50 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/ci_for_latex/</guid>
-      <description>How to use bitbucket pipelines to generate LaTex documents Why do this? It’s a handy way to have LaTex documents on the go and collaboration.
-Docker container The typical way of installing LaTex is texlive and one would normally install the full version. Whilst, this is great it is pretty big. So I have created a container with a basic LaTex installation: https://hub.docker.com/r/wrdeman/docker-min-tex This may or may not meet your requirements.</description>
+      <description>&lt;h2 id=&#34;how-to-use-bitbucket-pipelines-to-generate-latex-documents&#34;&gt;How to use bitbucket pipelines to generate LaTex documents&lt;/h2&gt;
+&lt;p&gt;Why do this? It’s a handy way to have LaTex documents on the go and
+collaboration.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -43,7 +44,8 @@ Docker container The typical way of installing LaTex is texlive and one would no
       <pubDate>Sat, 02 Feb 2019 21:18:24 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/django-benchmark/</guid>
-      <description>Concurrency, Django and Apache Bench The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called Heisenbug. I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present.</description>
+      <description>&lt;h2 id=&#34;concurrency-django-and-apache-bench&#34;&gt;Concurrency, Django and Apache Bench&lt;/h2&gt;
+&lt;p&gt;The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called &lt;a href=&#34;https://en.wikipedia.org/wiki/Heisenbug&#34;&gt;Heisenbug&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -52,7 +54,8 @@ Docker container The typical way of installing LaTex is texlive and one would no
       <pubDate>Mon, 28 Jan 2019 20:05:42 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/average-house-prices/</guid>
-      <description>What&amp;rsquo;s the average house price in a school&amp;rsquo;s catchment area? In order to calculate the average house price in a school&amp;rsquo;s catchment area, we are going to use PostGIS and OpenStreetMap. We&amp;rsquo;ll need to know the price and location of houses sold in that area, and the location of the schools and it&amp;rsquo;s catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap&amp;rsquo;s Nominatim.</description>
+      <description>&lt;h3 id=&#34;whats-the-average-house-price-in-a-schools-catchment-area&#34;&gt;What&amp;rsquo;s the average house price in a school&amp;rsquo;s catchment area?&lt;/h3&gt;
+&lt;p&gt;In order to calculate the average house price in a school&amp;rsquo;s catchment area,&lt;/p&gt;</description>
     </item>
     
     <item>
