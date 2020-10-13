@@ -180,6 +180,12 @@ ansible_python_interpreter=/usr/bin/python3
 <p>In a similar manner we can install kubernetes.  There is no release candidate for ubuntu 20.04 so I am using that from 18.04. So we mark the kubernetes packages as <code>hold</code> so they are not updated or upgraded. Kubernetes needs the iptables to see bridged traffic <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic">see here</a> and for this we make use of some specific POSIX functions and this requiring us to install <code>ansible.posix</code>:</p>
 <pre><code>ansible-galaxy collection install ansible.posix
 </code></pre><script type="application/javascript" src="https://gist.github.com/wrdeman/9bb38318ebaec127a4351a5296d3cbef.js"></script>
+
+<h3 id="next-steps">Next steps</h3>
+<ol>
+<li>attached an NFS</li>
+<li>create test app django/postgresql</li>
+</ol>
             </div>
             
             <div class="post-comments">
