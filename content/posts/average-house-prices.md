@@ -6,7 +6,7 @@ draft: false
 
 ### What's the average house price in a school's catchment area?
 
-In order to calculate the average house price in a school's catchment area, we are going to use PostGIS and OpenStreetMap. We'll need to know the price and location of houses sold in that area, and the location of the schools and it's catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap's Nominatim. The location of the schools can be found in OpenStreetMap's polygon table.
+In order to calculate the average house price in a school's catchment area, <!--more--> we are going to use PostGIS and OpenStreetMap. We'll need to know the price and location of houses sold in that area, and the location of the schools and it's catchment area. The former can be determined from the land registry and although this does not provide any geocoding we can do this using data provided by OpenStreetMap's Nominatim. The location of the schools can be found in OpenStreetMap's polygon table.
 
 In this example we are using `MYTOWN` and `SCHOOL NAME` as aliases.
 

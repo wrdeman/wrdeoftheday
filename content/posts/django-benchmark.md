@@ -6,7 +6,7 @@ draft: false
 
 ## Concurrency, Django and Apache Bench
 
-The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called [Heisenbug](https://en.wikipedia.org/wiki/Heisenbug). I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present. 
+The motivation for this blog was as a starting point in debugging errors caused errors caused by concurrency or race conditions - the so-called [Heisenbug](https://en.wikipedia.org/wiki/Heisenbug). <!--more--> I am going to use a contrived example of a bank account with a method to withdraw money and record each transaction. Then I will make a number of concurrent requests and investigate any undesired effects. I do not, in this blog, seek to propose any solution to these effects - solely to provide a means of determining whether they are present. 
 
 The app for this demo can be found [here](https://github.com/wrdeman/demo-concurrency).
 

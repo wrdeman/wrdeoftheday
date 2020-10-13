@@ -7,6 +7,8 @@ draft: false
 
 Why am I doing this? Why don't you use minikube? It's something to do.
 
+<!--more-->
+
 I have followed this blog post: https://uthark.github.io/post/2020-09-02-installing-kubernetes-raspberrypi/ and where possible convert it into ansible.
 
 The code is at https://github.com/wrdeman/wrde-pi
@@ -14,6 +16,10 @@ The code is at https://github.com/wrdeman/wrde-pi
 ### Topology
 
 I will have 4 Pis for the kubernetes cluster, a master and three workers, and a Pi acting as a network file system. They Pis are a combination of 4 and 3Bs.
+
+### Requirements
+1. ansible
+2. ansible.posix 
 
 ### Preparing the Pis 
 
@@ -138,7 +144,11 @@ and we are in a position to install docker. It is a straight forward installatio
 
 #### kubernetes
 
-In a similar manner we can install kubernetes. There is no release candidate for ubuntu 20.04 so I am using that from 18.04.
+In a similar manner we can install kubernetes.  There is no release candidate for ubuntu 20.04 so I am using that from 18.04. So we mark the kubernetes packages as `hold` so they are not updated or upgraded. Kubernetes needs the iptables to see bridged traffic [see here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic) and for this we make use of some specific POSIX functions and this requiring us to install `ansible.posix`:
+
+```
+ansible-galaxy collection install ansible.posix
+```
 
 {{< gist wrdeman 9bb38318ebaec127a4351a5296d3cbef >}}
 

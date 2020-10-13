@@ -10,6 +10,8 @@ draft: False
 Why do this? It’s a handy way to have LaTex documents on the go and 
 collaboration.
 
+<!--more-->
+
 ## Docker container
 
 The typical way of installing LaTex is texlive and one would normally install the full version.
