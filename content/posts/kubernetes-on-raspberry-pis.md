@@ -152,3 +152,8 @@ ansible-galaxy collection install ansible.posix
 
 {{< gist wrdeman 9bb38318ebaec127a4351a5296d3cbef >}}
 
+
+### Next steps
+
+1. attached an NFS
+2. create test app django/postgresql
