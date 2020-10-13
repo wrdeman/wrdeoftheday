@@ -6,7 +6,19 @@
     <description>Recent content on Wrde Of The Day</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 20:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Oct 2020 10:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Kubernetes on Raspberry PIs</title>
+      <link>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</link>
+      <pubDate>Tue, 13 Oct 2020 10:05:42 +0000</pubDate>
+      
+      <guid>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</guid>
+      <description>Another blog about kubernetes and raspberry pis Why am I doing this? Why don&amp;rsquo;t you use minikube? It&amp;rsquo;s something to do.
+I have followed this blog post: https://uthark.github.io/post/2020-09-02-installing-kubernetes-raspberrypi/ and where possible convert it into ansible.
+The code is at https://github.com/wrdeman/wrde-pi
+Topology I will have 4 Pis for the kubernetes cluster, a master and three workers, and a Pi acting as a network file system. They Pis are a combination of 4 and 3Bs.</description>
+    </item>
+    
     <item>
       <title>Trying out Apache Spark 1</title>
       <link>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</link>
