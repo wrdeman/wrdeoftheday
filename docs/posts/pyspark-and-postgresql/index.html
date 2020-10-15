@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Trying out Apache Spark: part 2 &middot; Wrde Of The Day </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.76.5" />
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://www.wrdeoftheday.co.uk/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-146772833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://www.wrdeoftheday.co.uk>wrde@man ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://www.wrdeoftheday.co.uk">/home/wrde</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/posts">~/posts</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://www.wrdeoftheday.co.uk/posts/pyspark-and-postgresql/">Trying out Apache Spark: part 2</a></h1>
+            <span class="post-date">Oct 15, 2020 </span>
+            <div class="post-content">
+                <h3 id="spark-and-postgresql">Spark and Postgresql</h3>
+<p>How to connect to apache spark to postgresql.</p>
+<h4 id="pyspark-notebook-and-docker-compose">pyspark notebook and docker-compose</h4>
+<p>For this I will be using the jupyter all-spark notebook and define it with a postgres container in docker-compose. First I extend the all-spark dockerfile to include the jdbc jar:</p>
+<p><code>Dockerfile</code></p>
+<pre><code>FROM jupyter/pyspark-notebook
+RUN wget https://jdbc.postgresql.org/download/postgresql-42.2.17.jar
+ENV SPARK_OPTS=$SPARK_OPTS:&quot; --packages org.postgresql:postgresql:42.2.17&quot;
+</code></pre><p>The docker-compose file is then:</p>
+<pre><code>version: '3' 
+services: 
+  db: 
+    image: 'postgres' 
+    environment: 
+      - POSTGRES_USER=postgres 
+      - POSTGRES_PASSWORD=postgres 
+      - POSTGRES_DB=postgres 
+    volumes: 
+      - database-data:/var/lib/postgresql/data/ 
+      - ./data/:/data 
+    ports: 
+      - &quot;5432:5432&quot; 
+  spark: 
+    build: . 
+    volumes: 
+      - ./data/:/data 
+      - ./notebooks/:/home/jovyan/notebook 
+    environment: 
+      - SPARK_OPTS=&quot;--driver-java-options=-Xms1024M --driver-java-options=-Xmx4096M --driver-java-options=-Dlog4j.logLevel=info --packages=io.delta:delta-core_2.12:0.7.0 --conf=spark.sql.extensions=io.delta    .sql.DeltaSparkSessionExtension --conf=spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog --packages org.postgresql:postgresql:42.2.17&quot; 
+    ports: 
+      - &quot;8888:8888&quot; 
+ 
+volumes: 
+  database-data: 
+  data: 
+  notebooks:
+</code></pre><h4 id="juypter-notebook">juypter notebook</h4>
+<p>We can now connect to postgres through pyspark:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pyspark.sql <span style="color:#f92672">import</span> SparkSession
+
+jdbc <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/home/jovyan/postgresql-42.2.17.jar&#39;</span>
+
+spark <span style="color:#f92672">=</span> SparkSession \
+    <span style="color:#f92672">.</span>builder \
+    <span style="color:#f92672">.</span>config(<span style="color:#e6db74">&#34;spark.driver.extraClassPath&#34;</span>, jdbc) \
+    <span style="color:#f92672">.</span>getOrCreate()
+
+df <span style="color:#f92672">=</span> spark<span style="color:#f92672">.</span>read \
+    <span style="color:#f92672">.</span>format(<span style="color:#e6db74">&#34;jdbc&#34;</span>) \
+    <span style="color:#f92672">.</span>option(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#e6db74">&#34;jdbc:postgresql://db:5432/postgres&#34;</span>) \
+    <span style="color:#f92672">.</span>option(<span style="color:#e6db74">&#34;driver&#34;</span>, <span style="color:#e6db74">&#34;org.postgresql.Driver&#34;</span>) \
+    <span style="color:#f92672">.</span>option(<span style="color:#e6db74">&#34;dbtable&#34;</span>, <span style="color:#e6db74">&#34;timing&#34;</span>) \
+    <span style="color:#f92672">.</span>option(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#e6db74">&#34;postgres&#34;</span>) \
+    <span style="color:#f92672">.</span>option(<span style="color:#e6db74">&#34;password&#34;</span>, <span style="color:#e6db74">&#34;postgres&#34;</span>) \
+    <span style="color:#f92672">.</span>load()
+
+df<span style="color:#f92672">.</span>show()
+</code></pre></div><pre><code>+---+--------------------+
+| id|             updated|
++---+--------------------+
+|  1|2020-10-15 05:53:...|
+|  2|2020-10-15 05:53:...|
+|  3|2020-10-15 05:53:...|
++---+--------------------+
+</code></pre>
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2020 wrde of the day -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+
+    </body>

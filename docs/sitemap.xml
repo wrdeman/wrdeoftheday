@@ -4,16 +4,21 @@
   
   <url>
     <loc>https://www.wrdeoftheday.co.uk/posts/</loc>
-    <lastmod>2020-10-13T10:05:42+00:00</lastmod>
+    <lastmod>2020-10-15T09:00:42+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</loc>
-    <lastmod>2020-10-13T10:05:42+00:00</lastmod>
+    <loc>https://www.wrdeoftheday.co.uk/posts/pyspark-and-postgresql/</loc>
+    <lastmod>2020-10-15T09:00:42+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.wrdeoftheday.co.uk/</loc>
+    <lastmod>2020-10-15T09:00:42+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</loc>
     <lastmod>2020-10-13T10:05:42+00:00</lastmod>
   </url>
   

@@ -6,7 +6,17 @@
     <description>Recent content on Wrde Of The Day</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Oct 2020 10:05:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Oct 2020 09:00:42 +0000</lastBuildDate><atom:link href="https://www.wrdeoftheday.co.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trying out Apache Spark: part 2</title>
+      <link>https://www.wrdeoftheday.co.uk/posts/pyspark-and-postgresql/</link>
+      <pubDate>Thu, 15 Oct 2020 09:00:42 +0000</pubDate>
+      
+      <guid>https://www.wrdeoftheday.co.uk/posts/pyspark-and-postgresql/</guid>
+      <description>&lt;h3 id=&#34;spark-and-postgresql&#34;&gt;Spark and Postgresql&lt;/h3&gt;
+&lt;p&gt;How to connect to apache spark to postgresql.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Running Kubernetes on Raspberry PIs</title>
       <link>https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/</link>
@@ -18,13 +28,13 @@
     </item>
     
     <item>
-      <title>Trying out Apache Spark 1</title>
+      <title>Trying out Apache Spark: Part 1</title>
       <link>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</link>
       <pubDate>Mon, 28 Sep 2020 20:05:42 +0000</pubDate>
       
       <guid>https://www.wrdeoftheday.co.uk/posts/pyspark-imdb-data1/</guid>
       <description>&lt;h3 id=&#34;spark-and-imdb-data&#34;&gt;Spark and IMDB data&lt;/h3&gt;
-&lt;p&gt;Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: &lt;a href=&#34;https://www.imdb.com/interfaces/&#34;&gt;https://www.imdb.com/interfaces/&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;Using this to try out some techniques with Apache Spark. The data is a subset of the IMDB dataset: &lt;a href=&#34;https://www.imdb.com/interfaces/&#34;&gt;https://www.imdb.com/interfaces/&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
