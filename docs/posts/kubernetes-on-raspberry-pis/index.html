@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> Running Kubernetes on Raspberry PIs &middot; Wrde Of The Day </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.76.4" />
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://www.wrdeoftheday.co.uk/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-146772833-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://www.wrdeoftheday.co.uk>wrde@man ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://www.wrdeoftheday.co.uk">/home/wrde</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/about">~/about</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/posts">~/posts</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://www.wrdeoftheday.co.uk/posts/kubernetes-on-raspberry-pis/">Running Kubernetes on Raspberry PIs</a></h1>
+            <span class="post-date">Oct 13, 2020 </span>
+            <div class="post-content">
+                <h3 id="another-blog-about-kubernetes-and-raspberry-pis">Another blog about kubernetes and raspberry pis</h3>
+<p>Why am I doing this? Why don&rsquo;t you use minikube? It&rsquo;s something to do.</p>
+<p>I have followed this blog post: <a href="https://uthark.github.io/post/2020-09-02-installing-kubernetes-raspberrypi/">https://uthark.github.io/post/2020-09-02-installing-kubernetes-raspberrypi/</a> and where possible convert it into ansible.</p>
+<p>The code is at <a href="https://github.com/wrdeman/wrde-pi">https://github.com/wrdeman/wrde-pi</a></p>
+<h3 id="topology">Topology</h3>
+<p>I will have 4 Pis for the kubernetes cluster, a master and three workers, and a Pi acting as a network file system. They Pis are a combination of 4 and 3Bs.</p>
+<h3 id="requirements">Requirements</h3>
+<ol>
+<li>ansible</li>
+<li>ansible.posix</li>
+</ol>
+<h3 id="preparing-the-pis">Preparing the Pis</h3>
+<p>The first thing to do is to install a OS image onto the Pis' SD card. This is a bit boring. I am using an Ubuntu image and have dutifully followed: <a href="https://ubuntu.com/download/raspberry-pi">https://ubuntu.com/download/raspberry-pi</a></p>
+<p>Next is to fix the IP addresses for each Pi. I could have probably done this using ansible but &hellip; I didn&rsquo;t. Ubuntu uses <code>netplan</code> for network configuration.</p>
+<p>On each Pi you will need to edit the network configuration file. Ubuntu uses <a href="https://netplan.io/">netplan</a> and these are found in <code>/etc/netplan/*.yaml</code>.</p>
+<p>In our case we edit <code>/etc/netplan/50-cloud-init.yaml</code></p>
+<pre><code>network:
+  version: 2
+  ethernets:
+     enp3s0:
+      dhcp4: no
+      addresses:
+        - 192.168.121.221/24
+      gateway4: 192.168.121.1
+      nameservers:
+          addresses: [8.8.8.8, 1.1.1.1]
+</code></pre><p>The address gateway is the default gatework of your router and the IP in the addresses is the IP of your Pi.</p>
+<p>Finally in <code>/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg</code> add</p>
+<pre><code>network: {config: disabled}
+</code></pre><p>then apply these changes:</p>
+<pre><code>sudo netplan apply
+</code></pre><p>On your host machine you can give the Pis nice names by editing <code>/etc/hosts</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">192.168.0.30 k8-worker3
+192.168.0.31 k8-master
+192.168.0.39 k8-worker2
+192.168.0.40 k8-worker1
+192.168.0.29 k8-nfs
+</code></pre></div><h3 id="ansible-and-pi-setup">Ansible and Pi setup</h3>
+<p>(Ansible)[https://docs.ansible.com/ansible/latest/index.html] is an automation tool to make configuring and deploying systems easier. Like much current think we are defining the system in code making it repeatable etc.</p>
+<p>The aim here is to deploy docker on the k8s. We begin by grouping our Pis into logical units - a master, workers, nfs and define these in the hosts file.</p>
+<p><code>/etc/hosts</code></p>
+<pre><code>[master]
+k8-master ansible_user=ubuntu
+
+[workers]
+k8-worker1 ansible_user=ubuntu
+k8-worker2 ansible_user=ubuntu
+k8-worker3 ansible_user=ubuntu
+
+[nfs]
+k8-nfs ansible_user=ubuntu
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+</code></pre><p>where we need to define our ansible user and python interpreter.</p>
+<h4 id="docker">docker</h4>
+<p>We need to enable memory control groups or cgroups for docker to work on the Pis. We need to add the following line to <code>/boot/firmware/cmdline.txt</code></p>
+<pre><code>cgroup_enable=memory swapaccount=1 cgroup_memory=1 cgroup_enable=cpuset
+</code></pre><p>This is a bit of a fudge but I create a playbook to handle this initial setup which I apply to the master and the workers:</p>
+<p><code>initial.yml</code></p>
+<pre><code>- hosts: masters,workers
+  roles: 
+    - initial
+</code></pre><p>and an accompanying task which adds the new settings and reboots each pi</p>
+<p><code>roles/initial/tasks/main.yml</code></p>
+<pre><code>- name: add cgroups
+  become: true
+  lineinfile:
+    dest: /boot/firmware/cmdline.txt
+    regexp: '$'
+    line: &quot; cgroup_enable=memory swapaccount=1 cgroup_memory=1 cgroup_enable=cpuset&quot;
+
+- name: reboot to apply cgroups
+  become: true
+  reboot:
+</code></pre><p>I then apply this</p>
+<pre><code>ansible-playbook -i hosts initial.yml
+</code></pre><p>and we are in a position to install docker. It is a straight forward installation on linux: install some dependencies, add a new repository for docker - noting its arm64 architecture, then install docker. Once docker is installed we need to update the daemon configuration to let systemd know to use cgroups. I have include all in the following gists:</p>
+<script type="application/javascript" src="https://gist.github.com/wrdeman/8b7de7a7b28cf764f59bddd1548188d5.js"></script>
+
+<h4 id="kubernetes">kubernetes</h4>
+<p>In a similar manner we can install kubernetes.  There is no release candidate for ubuntu 20.04 so I am using that from 18.04. So we mark the kubernetes packages as <code>hold</code> so they are not updated or upgraded. Kubernetes needs the iptables to see bridged traffic <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic">see here</a> and for this we make use of some specific POSIX functions and this requiring us to install <code>ansible.posix</code>:</p>
+<pre><code>ansible-galaxy collection install ansible.posix
+</code></pre><script type="application/javascript" src="https://gist.github.com/wrdeman/9bb38318ebaec127a4351a5296d3cbef.js"></script>
+
+<h3 id="next-steps">Next steps</h3>
+<ol>
+<li>attached an NFS</li>
+<li>create test app django/postgresql</li>
+</ol>
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2020 wrde of the day -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+
+    </body>
