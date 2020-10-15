@@ -1,11 +1,11 @@
 ---
-title: "Trying out Apache Spark 1"
+title: "Trying out Apache Spark: Part 1"
 date: 2020-09-28T20:05:42Z
 draft: false
 ---
 ### Spark and IMDB data
 
-Using this to try out some techniqkues with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
+Using this to try out some techniques with Apache Spark. The data is a subset of the IMDB dataset: https://www.imdb.com/interfaces/
 
 <!--more-->
 
