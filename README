@@ -1,9 +1,0 @@
-# [wrdeoftheday.co.uk](www.wrdeoftheday.co.uk)
-
-My personal blog.
-
-# docker
-
-`docker run --rm -i -u="$(id -u):$(id -g)" -p 1313:1313 -v "$PWD":/data wrdeman/docker-min-hugo hugo server -D --bind=0.0.0.0`
-
-commit on dev/push and wait
