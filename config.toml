@@ -1,6 +1,9 @@
 baseURL = "https://www.wrdeoftheday.co.uk"
-languageCode = "en-us"
+defaultContentLanguage = "en"
 title = "Wrde Of The Day"
+
+[languages.en]
+  locale = "en-US"
 theme = "hugo-theme-nix"
 paginate = 5
 config = "config.toml"

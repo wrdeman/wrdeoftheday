@@ -20,6 +20,11 @@ jobs:
       - name: Clone theme
         run: git clone https://github.com/wrdeman/hugo-theme-nix themes/hugo-theme-nix
 
+      - name: Patch theme for Hugo compatibility
+        run: |
+          find themes/hugo-theme-nix -name "*.html" -exec \
+            sed -i 's/\.Site\.LanguageCode/.Site.Language.Lang/g' {} \;
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
